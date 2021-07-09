@@ -15,24 +15,28 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+
 @Entity
-@Table(name="reviewcomment")
+@Table(name = "reviewcomment")
 public class ReviewComment {
-		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		@Column(name="reviewcomment_id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "reviewcomment_id")
 	private Long id;
-		@ManyToOne
-		@JoinColumn(name="member_id")
+	
+	@ManyToOne
+	@JoinColumn(name = "member_id")
 	private Member member;
-		
-		@Lob
+
+	@Lob
 	private String content;
+	
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date regDate;
+	
 	@ManyToOne
-	@JoinColumn(name="reviewboard_id")
+	@JoinColumn(name = "reviewboard_id")
 	private ReviewBoard reviewBoard;
 
-	}
+}
