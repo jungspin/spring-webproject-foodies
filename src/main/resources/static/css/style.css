@@ -24,36 +24,105 @@ body {
 .main-navi {
   /* sticky 포지션 = 화면 상단에 붙어 있는 포지션 */
   position: fixed;
-  width: 1600px;
-  background-color: wheat;
+  width: 100%;
+  background-color: rgb(248, 234, 206);
   height: 80px;
   padding: 0 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
+.main-navi2 {
+  /* sticky 포지션 = 화면 상단에 붙어 있는 포지션 */
+  position: fixed;
+  width: 100%;
+  background-color: rgb(248, 234, 206);
+  height: 80px;
+  padding: 0 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-navi2 .logo i {
+  font-size: 40px;
+  color: rgb(247, 194, 48);
+  position: relative;
+  top: 7px;
+  margin-bottom: 10px;
+}
+.main-navi2 .logo a {
+  text-decoration: none;
+  color: rgb(247, 194, 48);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  padding-bottom: 7px;
+}
+
 .banner {
   margin-top: 80px;
   position: fixed;
   width: 250px;
-  height: 550px;
+  height: 900px;
   display: grid;
   align-items: left;
 }
 .main-navi .logo i {
   font-size: 40px;
+  color: rgb(247, 194, 48);
   position: relative;
   top: 7px;
+  margin-bottom: 10px;
 }
 .main-navi .logo a {
   text-decoration: none;
-  color: #222;
-  font-size: 1.5rem;
+  color: rgb(247, 194, 48);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 20px;
   font-weight: 900;
   padding-bottom: 7px;
 }
 
-.main-navi .search .btn {
+
+.search {
+  margin: 0;
+  display: flex;
+  border: rgb(255, 222, 172) solid 1px;
+  width: 400px;
+  border-radius: 18px;
+
+}
+
+.search-input {
+  width: 300px;
+  height: 30px;
+  border: none;
+  padding-left: 30px;
+  border-top-left-radius: 18px;
+  border-bottom-left-radius: 18px;
+}
+
+.search-input::placeholder {
+  color: rgb(189, 181, 163);
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+.search-button {
+  width: 100px;
+  height: 30px;
+  border: none;
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+  background-color: rgb(255, 164, 27);
+  color: rgb(180, 72, 0);
+}
+
+.main-navi  .btn {
   height: 48px;
   width: 300px;
   font-weight: bold;
@@ -64,17 +133,23 @@ body {
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  color: rgb(255, 187, 0);
   border: 1px solid #ddd;
   background-color: white;
   outline: none;
 }
+
+.main-navi .search .btn input{
+  border: none;
+}
+
 .main-navi .search .btn :hover {
   /* rgba 에서 a는 투명도 */
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .main-navi .search .bicon {
-  background-color: rgba(255, 56, 92);
+  background-color: rgb(252, 191, 135);
   color: white;
   border-radius: 50%;
   padding: 7px 9px;
@@ -84,7 +159,11 @@ body {
   justify-content: space-around;
   width: 200px;
   cursor: pointer;
+  color: rgb(212, 156, 2);
+  font-family: 'Noto Sans KR', sans-serif;
 }
+
+
 
 .box {
   margin-left: 150px;
