@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,9 +40,16 @@
         </div>
 
         <div class="menu" id="host">
-            <div class="item">회원가입</div>
-            <div class="item">로그인</div>
-              <div class="item">게시판</div>       
+        	<div class="item">게시판</div>  
+        	<sec:authorize access="isAuthenticated()">
+        	<div class="item"><a href="/member/getInfo">마이페이지</a></div>
+        	<div class="item"><a href="/logout">로그아웃</a></div>
+        	</sec:authorize>
+        	<sec:authorize access="isAnonymous()">
+        	<div class="item"><a href="/login">로그인</a></div>
+            <div class="item"><a href="/register">회원가입</a></div>
+            </sec:authorize>
+                   
        
             <div class="item">           
                 
@@ -185,7 +193,7 @@
 <h1>가까운 여행지 둘러보기</h1>
 <div class="grid">
     <div class="item">
-        <img src="img/서울.jpg " alt="image">
+        <img src="${food.mainImgThumb}" alt="image">
         <div> <div class="bold">서울</div> <r> 차로 5시간거리</div>
     </div>
     <div class="item">
