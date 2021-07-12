@@ -6,7 +6,7 @@
 <head>
  
 <meta charset="UTF-8">
-
+<title>Insert title here</title>
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
         integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
@@ -75,7 +75,7 @@
  <div class="page-wrapper" style="position:relative;">
       <!--page slider -->
       <div class="post-slider">
-        <h1 class="silder-title">리뷰 음식점</h1>
+        <h1 class="silder-title">추천 음식점</h1>
         <i class="fas fa-chevron-left prev"></i>  
         <i class="fas fa-chevron-right next"></i>  
         <div class="post-wrapper">
@@ -83,7 +83,7 @@
           <div class="post">
             <img src="${restaurant.mainImgNormal}" class="slider-image">
             <div class="post-info">
-              <h4><a href="#"> ${resturant.mainTitle} </a></h4>
+              <h4><a href="#">${restaurant.mainTitle} </a></h4>
               <i class="far fa-user" style="height:10%;">${restaurant.itemcntnts }</i>
             </div>
           </div>
@@ -94,10 +94,10 @@
     </div>
     <script>
     $('.post-wrapper').slick({
-    	  slidesToShow: 2,
+    	  slidesToShow: 3,
     	  slidesToScroll: 2,
     	  autoplay: true,
-    	  autoplaySpeed: 2000,
+    	  autoplaySpeed: 3000,
     	  nextArrow:$('.next'),
     	  prevArrow:$('.prev'),
     	});</script>

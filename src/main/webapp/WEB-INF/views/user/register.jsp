@@ -73,7 +73,7 @@
     </div> -->
 			<br /> <br />
 			<!-- 그냥 못 넘어가게 해야돼 -->
-			<button type="button" class="btn btn-primary" id="btn-submit">Submit</button>
+			<button type="submit" class="btn btn-primary" id="btn-submit">Submit</button>
 		</form>
 	</div>
 

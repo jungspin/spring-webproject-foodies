@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.authorizeRequests()
-			.mvcMatchers("/", "/board", "/login").permitAll() // 해당 요청 모두 허용
+			.mvcMatchers("/", "/board/*", "/login").permitAll() // 해당 요청 모두 허용
 			.mvcMatchers(HttpMethod.POST, "/login").permitAll() // 해당 요청 모두 허용
 			.mvcMatchers("/manager/*").hasAuthority("ROLE_Manager") // 해당 요청은 해당 권한을 가지고 있어야 허용
 			.mvcMatchers("/member/*").hasAuthority("ROLE_Member");

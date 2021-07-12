@@ -37,6 +37,7 @@ public class FreeBoard {
 	@Column(name = "freeboard_id")
 	private Long id;
 	
+	private String title;
 	@Lob
 	private String content;
 	

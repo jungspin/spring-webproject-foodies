@@ -16,6 +16,7 @@
 <script src="/static/js/include-html.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
 </head>
 <style>
 .post-slider{
@@ -76,6 +77,26 @@
       <!--page slider -->
       <div class="post-slider">
         <h1 class="silder-title">추천 음식점</h1>
+        <i class="fas fa-chevron-left prev"></i>  
+        <i class="fas fa-chevron-right next"></i>  
+        <div class="post-wrapper">
+         <c:forEach items="${lists}" var="restaurant" varStatus="st"> 
+          <div class="post">
+            <img src="${restaurant.mainImgNormal}" class="slider-image">
+            <div class="post-info">
+              <h4><a href="#">${restaurant.mainTitle} </a></h4>
+              <i class="far fa-user" style="height:10%;">${restaurant.itemcntnts }</i>
+            </div>
+          </div>
+         </c:forEach>
+        </div>
+      </div>
+      <!--post slider-->
+    </div>
+    <div class="page-wrapper" style="position:relative;">
+      <!--page slider -->
+      <div class="post-slider">
+        <h1 class="silder-title">리뷰 음식점</h1>
         <i class="fas fa-chevron-left prev"></i>  
         <i class="fas fa-chevron-right next"></i>  
         <div class="post-wrapper">

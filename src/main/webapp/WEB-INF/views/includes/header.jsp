@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,9 +66,17 @@
         </form>
 
         <div class="menu" id="host">
-            <div class="item">회원가입</div>
-            <div class="item">로그인</div>
-            <div class="item">게시판</div>
+         	<sec:authorize access="isAuthenticated()">
+        	<div class="item"><a href="/member/getInfo">마이페이지</a></div>
+        	<div class="item"><a href="/logout">로그아웃</a></div>
+        	</sec:authorize>
+        	<sec:authorize access="isAnonymous()">
+        	<div class="item"><a href="/login">로그인</a></div>
+            <div class="item"><a href="/register">회원가입</a></div>
+            </sec:authorize>
+        
+      
+            <div class="item"><a href = "list">게시판</a></div>
 
         </div>
     </div>

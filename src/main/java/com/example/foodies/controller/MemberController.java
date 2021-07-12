@@ -39,7 +39,7 @@ public class MemberController {
 	
 	// 회원가입
 	@PostMapping("/register")
-	public String register(@RequestBody Member member) {
+	public String register(Member member) {
 		//System.out.println("original : " + member);
 		memberService.register(member);
 		return "/user/login";
