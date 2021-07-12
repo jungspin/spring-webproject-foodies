@@ -137,8 +137,9 @@ $("#btnEmail").on('click', function(){
 			contentType: "application/json;charset=utf-8"
 		})
 		.done(function(resp){
+			console.log(resp);
 			$("#emailValid").html("인증번호가 전송되었습니다").css('color', 'green');
-			//console.log(resp);
+			
 			//isCertification=true; //추후 인증 여부를 알기위한 값
 			let key = resp;
 			//console.log(key);
@@ -176,21 +177,31 @@ function hiddenInput() {
 // 이메일 인증확인 마지막
 function confirmKey(key){
 	$("#btn-emailKey").on('click' , function(){
-	var inputKey = $("#emailCheck").val();
-		if (inputKey != key){
-			isEmailCertification=false;
-			//alert("인증에 실패했습니다");
-			$("#emailValid").html("인증에 실패했습니다").css('color', 'red');
-			document.getElementById("email").value = "";
-			document.getElementById("emailCheck").value = "";
-			
-		} else {
-			isEmailCertification=true;
-			//alert("이메일이 인증되었습니다");
-			$("#emailValid").html("이메일이 인증되었습니다").css('color', 'green');
-			hiddenInput();
+		var inputKey = $("#emailCheck").val();
+		var keyData ={
+			"rawKey" : inputKey,
+			"encodedKey" : key
 		}
-})
+		$.ajax({
+			method:"POST",
+			url: "/register/checkKey",
+			data: JSON.stringify(keyData),
+			contentType: "application/json;charset=utf-8"
+		})
+		.done(function(resp){
+			console.log(resp);
+			if (resp != "success"){
+				$("#emailValid").html("인증에 실패했습니다").css('color', 'red');
+				document.getElementById("email").value = "";
+				document.getElementById("emailCheck").value = "";
+				return;
+			} else {
+				$("#emailValid").html("이메일이 인증되었습니다").css('color', 'green');
+				hiddenInput();
+			}
+		})
+		
+	})
 }
 
 

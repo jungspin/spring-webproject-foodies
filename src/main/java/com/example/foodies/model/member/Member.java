@@ -1,4 +1,4 @@
-package com.example.foodies.model;
+package com.example.foodies.model.member;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,12 +7,15 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Entity
 public class Member {
@@ -26,17 +29,12 @@ public class Member {
 	@Column(nullable = false)
 	private Boolean gender;
 
-	@NotEmpty
-	@Size(min = 4, max = 8 )
 	@Column(nullable = false)
 	private String username;
 
-	@NotEmpty
 	@Column(nullable = false)
 	private String password;
 
-	@NotEmpty
-	@Email
 	@Column(nullable = false)
 	private String email;
 

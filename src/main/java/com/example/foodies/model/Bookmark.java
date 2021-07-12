@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.example.foodies.model.member.Member;
+
 // 관심등록을 위한 테이블입니다
 @Entity
 public class Bookmark {

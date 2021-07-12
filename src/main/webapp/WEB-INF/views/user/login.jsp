@@ -19,6 +19,8 @@
   <div class="form-group">
       <label for="id">아이디</label>
       <input type="text" class="form-control" id="username" placeholder="아이디를 입력해주세요" name="username">
+      <div id="erroeMsg" style="color: red">${errorMessage}</div>
+      <!-- id 값 읽어서 비어있으면 말고 있으면 alert.. -->
     </div>
     <div class="form-group">
       <label for="pwd">비밀번호</label>
@@ -28,6 +30,7 @@
     <button type="submit" class="btn btn-primary">Submit</button>
   </form> 
 </div>
+
 
 </body>
 </html>

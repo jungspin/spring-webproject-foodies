@@ -18,8 +18,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import com.example.foodies.config.auth.PrincipalDetails;
 import com.example.foodies.model.FreeBoard;
-import com.example.foodies.model.Member;
 import com.example.foodies.model.Restaurant;
+import com.example.foodies.model.member.Member;
 import com.example.foodies.service.BoardService;
 import com.example.foodies.service.MemberService;
 

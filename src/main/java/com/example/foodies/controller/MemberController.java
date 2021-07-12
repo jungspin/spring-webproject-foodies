@@ -1,18 +1,29 @@
 package com.example.foodies.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.foodies.model.Member;
+import com.example.foodies.handler.CunstomValidationException;
+import com.example.foodies.model.member.AuthMailDTO;
+import com.example.foodies.model.member.Member;
+import com.example.foodies.model.member.RegisterDTO;
 import com.example.foodies.repository.MemberRepository;
 import com.example.foodies.service.MemberService;
 
@@ -33,23 +44,53 @@ public class MemberController {
 
 	// 회원가입 폼으로 가기
 	@GetMapping("/register")
-	public String register() {
+	public String register(Model model) {
+		model.addAttribute("member", new Member());
 		return "/user/register";
 	}
+	/*
+	@RequestMapping("/save")
+	public String memberSave(@ModelAttribute Member member, BindingResult result) {
+		System.out.println("member : " + member);
+		return "redirect:/input";
+	}
+	
+	@RequestMapping("/input")
+	public ModelAndView memberInput() {
+		return new ModelAndView("register", "member", new Member());
+	}
+	*/
 	
 	// 회원가입
 	@PostMapping("/register")
-	public String register(Member member) {
-		//System.out.println("original : " + member);
-		memberService.register(member);
-		return "/user/login";
+	public String register(@Valid RegisterDTO registerDTO, BindingResult bindingResult) {
+		//System.out.println("original : " + registerDTO);
+		
+		if (bindingResult.hasErrors()) {
+			Map<String, String> errorMap = new HashMap<>();
+			for (FieldError error : bindingResult.getFieldErrors()) {
+				errorMap.put(error.getField(), error.getDefaultMessage());
+				System.out.println(error.getDefaultMessage());
+				
+			}
+			throw new CunstomValidationException("유효성 검사 실패", errorMap);
+		} else {
+			Member member = registerDTO.toEntity();
+			memberService.register(member);
+			//System.out.println("new : " + member);
+			return "/user/login";
+		}
+		
 	}
 
 	// 로그인 폼
-	@GetMapping("/login")
+	//@GetMapping("/login")
+	@RequestMapping("/login") // 이것때문에 failure 핸들러에서 오류났음 405
 	public String login() {
 		return "/user/login";
 	}
+	
+
 
 
 	// 아이디 중복검사
@@ -69,6 +110,9 @@ public class MemberController {
 	// 서비스단에서 처리하려니까 안되더라?
 	@Autowired
 	private JavaMailSender javaMailSender;
+	
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
 	@PostMapping("/register/checkEmail")
 	@ResponseBody
@@ -86,16 +130,30 @@ public class MemberController {
 		int numIndex = random.nextInt(9999) + 1000; // 4자리 랜덤 정수를 생성
 		authKey += numIndex;
 		message.setSubject("Foodies 가입을 위한 이메일 인증을 완료해주세요");
-		message.setText("아래 인증번호를 회원가입 시 입력해주세요.");
 		message.setText("인증 번호 : " + authKey);
 		javaMailSender.send(message);
 		
-		return authKey;
+		// 인증키 암호화
+		String encodedKey = encoder.encode(authKey);
+		
+		return encodedKey;
 		//return "good";
 		
 	}
 	
-	// 여기서부터 member 권한이 있어야 접근이 가능합니다
+	// 이메일 인증
+	@PostMapping("/register/checkKey")
+	@ResponseBody
+	public String checkKey(@RequestBody AuthMailDTO authMailDTO  ) {
+		//System.out.println("authMailDTO : " + authMailDTO);
+		
+		if (!encoder.matches(authMailDTO.getRawKey(), authMailDTO.getEncodedKey())) {
+			return "fail";
+		}
+		return "success";
+	}
+	
+	// ================== 여기서부터 member 권한이 있어야 접근이 가능합니다 ==========================
 	
 	// 회원정보 보기전 비밀번호 확인 폼
 	@GetMapping("/member/getInfo")
@@ -114,6 +172,14 @@ public class MemberController {
 		Member member = memberRepository.findById(id).get();
 		model.addAttribute("member", member);
 		return "/user/info";
+	}
+	
+	// ================== 여기서부터 manager 권한이 있어야 접근이 가능합니다 ==========================
+	
+	// 관리자 페이지 가기
+	@GetMapping("/manager")
+	public String manager() {
+		return "/user/manager";
 	}
 
 }

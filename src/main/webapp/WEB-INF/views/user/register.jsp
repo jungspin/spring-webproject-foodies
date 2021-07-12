@@ -21,7 +21,7 @@
 					<button type="button" class="btn-sm btn-primary" id="btnCheckid">중복확인</button>
 				</div>
 				<input type="text" class="form-control chk" id="id" placeholder="아이디를 입력해주세요" name="username" required="required">
-				<div class="valid" id="idValid">영문 소문자, 숫자 포함 4~8자입니다</div>
+				<div class="valid" id="idValid">영문 소문자, 숫자 포함 4~10자입니다</div>
 			</div>
 
 			<div class="form-group">
@@ -53,24 +53,20 @@
 
 			<label for="gender">성별</label>
 			 <br /> 
-			<input type="radio" name="gender" id="gender" value=true checked="checked" />여성&nbsp; 
-			<input type="radio" name="gender" id="gender" value=false />남성
+			<input type="radio" name="gender"  value=true checked="checked" />여성&nbsp; 
+			<input type="radio" name="gender"  value=false />남성
 			 <br /> <br /> 
 			 
 			<label for="gender">나이</label> 
 			<br /> 
-				<input type="radio" name="age" id="age" value="age_10" checked="checked" />10대 &nbsp; 
-				<input type="radio" name="age" id="age" value="age_20" />20대 &nbsp; 
-				<input type="radio" name="age" id="age" value="age_30" />30대 &nbsp; 
-				<input type="radio" name="age" id="age" value="age_40" />40대 &nbsp; 
-				<input type="radio" name="age" id="age" value="age_more" />50대 이상 &nbsp;
+				<input type="radio" name="age" value="age_10" checked="checked" />10대 &nbsp; 
+				<input type="radio" name="age" value="age_20" />20대 &nbsp; 
+				<input type="radio" name="age" value="age_30" />30대 &nbsp; 
+				<input type="radio" name="age" value="age_40" />40대 &nbsp; 
+				<input type="radio" name="age" value="age_more" />50대 이상 &nbsp;
 
 
-			<!--  <div class="form-group form-check">
-      <label class="form-check-label">
-        <input class="form-check-input" type="checkbox" name="remember"> Remember me
-      </label>
-    </div> -->
+	
 			<br /> <br />
 			<!-- 그냥 못 넘어가게 해야돼 -->
 			<button type="submit" class="btn btn-primary" id="btn-submit">Submit</button>
@@ -103,7 +99,8 @@ $("#btn-submit").click(function submitCheck(){
 		alert("이메일 인증을 해주세요");
 		return false;
 	} else {
-		true;
+		alert("회원가입을 진행합니다");
+		return true;
 	}
 	
 });

@@ -7,8 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.foodies.model.Member;
-import com.example.foodies.model.Role;
+import com.example.foodies.model.member.Member;
+import com.example.foodies.model.member.Role;
 import com.example.foodies.repository.MemberRepository;
 
 import lombok.AllArgsConstructor;

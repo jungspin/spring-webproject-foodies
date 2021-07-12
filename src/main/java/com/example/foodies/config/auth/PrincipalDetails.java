@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.foodies.model.Member;
+import com.example.foodies.model.member.Member;
 
 import lombok.Data;
 
