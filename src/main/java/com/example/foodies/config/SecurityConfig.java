@@ -31,8 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.mvcMatchers("/", "/board", "/login").permitAll() // 해당 요청 모두 허용
 			.mvcMatchers(HttpMethod.POST, "/login").permitAll() // 해당 요청 모두 허용
-			.mvcMatchers("/manager/*").hasAuthority("ROLE_Manager") // 해당 요청은 해당 권한을 가지고 있어야 허용
-			.mvcMatchers("/member/*").hasAuthority("ROLE_Member");
+			.mvcMatchers("/manager/**").hasAuthority("ROLE_Manager") // 해당 요청은 해당 권한을 가지고 있어야 허용
+			.mvcMatchers("/member/**").hasAuthority("ROLE_Member");
 		
 		http.formLogin()
 			.loginPage("/login") // 사용할 페이지 -> jsp 파일명 아님 요청주소임

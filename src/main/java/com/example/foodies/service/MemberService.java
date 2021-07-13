@@ -71,6 +71,7 @@ public class MemberService {
 		
 		return 1; // 비밀번호 일치
 	}
+	
 	//멤버 찾기 
 	@Transactional
 	public Page<Member> findAll(Pageable pageable) {
@@ -78,6 +79,10 @@ public class MemberService {
 		return memberRepository.findAll(pageable);
 	}
 	
+	// 아이디로 찾기
+	public Member findById(Long id) {
+		return memberRepository.findById(id).get();
+	}
 	
 	
 

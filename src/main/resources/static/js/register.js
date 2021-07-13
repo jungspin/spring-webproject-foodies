@@ -137,7 +137,7 @@ $("#btnEmail").on('click', function(){
 			contentType: "application/json;charset=utf-8"
 		})
 		.done(function(resp){
-			console.log(resp);
+			//console.log(resp);
 			$("#emailValid").html("인증번호가 전송되었습니다").css('color', 'green');
 			
 			//isCertification=true; //추후 인증 여부를 알기위한 값
@@ -189,7 +189,7 @@ function confirmKey(key){
 			contentType: "application/json;charset=utf-8"
 		})
 		.done(function(resp){
-			console.log(resp);
+			//console.log(resp);
 			if (resp != "success"){
 				$("#emailValid").html("인증에 실패했습니다").css('color', 'red');
 				document.getElementById("email").value = "";

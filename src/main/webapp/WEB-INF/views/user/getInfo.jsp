@@ -16,6 +16,7 @@
  <br/>
 <div class="container">
   <h2>비밀번호 확인</h2>
+  <!-- 액션이 # 인데도 간다?! -->
   <form action="#" method="post">
   
     <div class="form-group">

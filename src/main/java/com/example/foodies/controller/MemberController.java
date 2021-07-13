@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,18 +49,6 @@ public class MemberController {
 		model.addAttribute("member", new Member());
 		return "/user/register";
 	}
-	/*
-	@RequestMapping("/save")
-	public String memberSave(@ModelAttribute Member member, BindingResult result) {
-		System.out.println("member : " + member);
-		return "redirect:/input";
-	}
-	
-	@RequestMapping("/input")
-	public ModelAndView memberInput() {
-		return new ModelAndView("register", "member", new Member());
-	}
-	*/
 	
 	// 회원가입
 	@PostMapping("/register")
@@ -89,9 +78,6 @@ public class MemberController {
 	public String login() {
 		return "/user/login";
 	}
-	
-
-
 
 	// 아이디 중복검사
 	@PostMapping("/register/checkId")
@@ -155,13 +141,21 @@ public class MemberController {
 	
 	// ================== 여기서부터 member 권한이 있어야 접근이 가능합니다 ==========================
 	
+	// 마이페이지
+	@GetMapping("/member/mypage/{id}")
+	public String getMypage(@PathVariable Long id, Model model) {
+		model.addAttribute("member", memberService.findById(id));
+		return "/user/mypage";
+	}
+	
+	
 	// 회원정보 보기전 비밀번호 확인 폼
 	@GetMapping("/member/getInfo")
 	public String getInfo() {
 		return "/user/getInfo";
 	}
 	
-	
+	// 비밀번호 확인 후 회원수정 페이지 가기
 	@PostMapping("/member/getInfo")
 	public String getInfo(Long id, String username,String password, Model model) {
 		int result = memberService.findByPassword(username, password);

@@ -21,14 +21,13 @@
     
 </head>
 <body>
- <nav class="main-navi nav-down">
+  <nav class="main-navi nav-down">
         <div class="logo">
             <a href="/">
                 <i class="fas fa-hamburger"></i>FOODIES
             </a>
-
-
         </div>
+        
         <form class="">
             <div class="search">
                 <input type="text" class="search-input" placeholder="지역 및 식당, 음식">
@@ -37,27 +36,25 @@
         </form>
 
         <div class="menu" id="host">
-      <div class="item">게시판</div>  
-        	<sec:authorize access="isAuthenticated()">
-        	<div class="item"><a href="/member/getInfo">마이페이지</a></div>
+        <div class="item"><a href = "list">게시판</a></div>
+         	<sec:authorize access="isAuthenticated()">
+        	<div class="item"><a href="/member/mypage/<sec:authentication property="principal.member.id"/>">마이페이지</a></div>
         	<div class="item"><a href="/logout">로그아웃</a></div>
         	</sec:authorize>
         	<sec:authorize access="isAnonymous()">
         	<div class="item"><a href="/login">로그인</a></div>
             <div class="item"><a href="/register">회원가입</a></div>
             </sec:authorize>
-
         </div>
-    </nav>
+    </nav> 
 
-    <div class="main-navi2">
+<div class="main-navi2">
         <div class="logo">
             <a href="/">
                 <i class="fas fa-hamburger"></i>FOODIES
             </a>
-
-
         </div>
+        
         <form class="">
             <div class="search2">
                 <input type="text" class="search-input" placeholder="지역 및 식당, 음식">
@@ -67,7 +64,7 @@
 
         <div class="menu" id="host">
          	<sec:authorize access="isAuthenticated()">
-        	<div class="item"><a href="/member/getInfo">마이페이지</a></div>
+        	<div class="item"><a href="/member/mypage/<sec:authentication property="principal.member.id"/>">마이페이지</a></div>
         	<div class="item"><a href="/logout">로그아웃</a></div>
         	</sec:authorize>
         	<sec:authorize access="isAnonymous()">
@@ -79,13 +76,12 @@
             <div class="item"><a href = "list">게시판</a></div>
 
         </div>
-    </div>
-
-    <div class="container-fluid">
+</div> 
+ <div class="container-fluid">
         <div class="explain">
             <h2>FOODIES</h2><br>
             <h4>먹는 즐거움의 시작!</h4>
         </div>
-    </div>
-</body>
-</html>
+    </div> 
+
+    
