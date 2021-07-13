@@ -21,6 +21,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.example.foodies.model.member.Member;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -37,6 +38,7 @@ public class FreeBoard {
 	@Column(name = "freeboard_id")
 	private Long id;
 	
+	private String title;
 	@Lob
 	private String content;
 	

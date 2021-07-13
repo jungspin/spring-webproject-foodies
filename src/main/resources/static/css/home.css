@@ -1,0 +1,224 @@
+@charset "UTF-8";
+/* 초기화 */
+
+* {
+  margin: 0;
+  padding: 0;
+  /* 가로 세로 길이 기준을 보더 박스 기준으로 */
+  box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+      'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+
+.main-navi {
+    /* sticky 포지션 = 화면 상단에 붙어 있는 포지션 */
+    position: sticky;
+ 
+    width: 100%;
+    background-color: rgb(248, 234, 206);
+    height: 80px;
+    padding: 0 80px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-down{
+    display: none;
+  }
+
+  .nav-up{
+    display:flex;
+  }
+
+  .main-navi2 {
+    /* sticky 포지션 = 화면 상단에 붙어 있는 포지션 */
+    position: sticky;
+    width: 100%;
+    height: 80px;
+    padding: 0 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .main-navi2 .logo i {
+    font-size: 40px;
+    color: rgb(247, 194, 48);
+    position: relative;
+    top: 7px;
+    margin-bottom: 10px;
+  }
+  .main-navi2 .logo a {
+    text-decoration: none;
+    color: rgb(247, 194, 48);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    padding-bottom: 7px;
+  }
+
+  .main-navi .logo i {
+    font-size: 40px;
+    color: rgb(247, 194, 48);
+    position: relative;
+    top: 7px;
+    margin-bottom: 10px;
+  }
+  .main-navi .logo a {
+    text-decoration: none;
+    color: rgb(247, 194, 48);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    padding-bottom: 7px;
+  }
+  
+  .search {
+    margin: 0;
+    display: flex;
+    border: rgb(255, 222, 172) solid 1px;
+    width: 400px;
+    border-radius: 25px;
+  
+  }
+
+  .search2 {
+    margin: 0;
+    display: flex;
+    width: 400px;
+    border-radius: 25px;
+  
+  }
+  
+  .search-input {
+    width: 500px;
+    height: 50px;
+    border: none;
+    padding-left: 30px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+  }
+  
+  .search-input::placeholder {
+    color: rgb(189, 181, 163);
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  
+  .search-input:focus {
+    outline: none;
+  }
+
+  .search-button {
+    width: 100px;
+    height: 50px;
+    border: none;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    background-color: rgb(255, 164, 27);
+    color: rgb(180, 72, 0);
+  }
+
+  .menu {
+    display: flex;
+    justify-content: space-around;
+    width: 200px;
+    cursor: pointer;
+    color: rgb(212, 156, 2);
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  
+  .main-navi  .btn {
+    height: 48px;
+    width: 300px;
+    font-weight: bold;
+    font-size: 15px;
+    border-radius: 30px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    color: rgb(255, 187, 0);
+    border: 1px solid #ddd;
+    background-color: white;
+    outline: none;
+  }
+
+  .main-navi .search .bicon {
+    background-color: rgb(252, 191, 135);
+    color: white;
+    border-radius: 50%;
+    padding: 7px 9px;
+  }
+  .menu {
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.8vw;
+    padding-right: 20px;
+    width: 15vw;
+    cursor: pointer;
+    color: rgb(212, 156, 2);
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .container-fluid{
+    /* position: absolute; */
+    height: 40vw;
+    background-image: url(./img/store.jpg);
+    background-size: cover;
+    align-items: center;
+  }
+
+
+  /* 최상단 푸디즈 */
+  .explain{
+      padding-top: 15vw;
+      margin-left: 15vw;
+      color: rgb(255, 247, 238);
+      
+      font-family: 'Noto Sans KR', sans-serif;
+  }
+
+  .explain h4{
+    font-size: 2vw;
+    font-weight: 600;
+  }
+
+  .explain h2{
+      color: rgb(250, 196, 18);
+      font-size: 5vw;
+      font-weight: 600;
+      margin-bottom: -2vw;
+  }
+
+
+  /* 슬라이드 섹션 */
+  .slidesec{
+    margin: 0;
+    padding: 0;
+    height: 50vw;
+    position: relative;
+    margin-left: 20vw;
+  }
+
+  .slider {
+    width: 70%;
+    margin: 100px auto;
+
+  }
+
+  .slick-slide {
+    margin: 0px 20px;
+  }
+
+  .slick-slide img {
+    width: 100%;
+  }
+
+  .slick-prev:before,
+  .slick-next:before {
+    color: rgb(180, 108, 108);
+  }

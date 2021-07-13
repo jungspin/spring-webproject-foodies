@@ -22,6 +22,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.example.foodies.model.member.Member;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
