@@ -15,7 +15,8 @@ body {
 
 .main-navi {
     /* sticky 포지션 = 화면 상단에 붙어 있는 포지션 */
-    position: fixed;
+    position: sticky;
+ 
     width: 100%;
     background-color: rgb(248, 234, 206);
     height: 80px;
@@ -34,7 +35,7 @@ body {
 
   .main-navi2 {
     /* sticky 포지션 = 화면 상단에 붙어 있는 포지션 */
-    position: absolute;
+    position: sticky;
     width: 100%;
     height: 80px;
     padding: 0 80px;

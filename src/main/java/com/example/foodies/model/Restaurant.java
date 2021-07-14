@@ -1,5 +1,7 @@
 package com.example.foodies.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -21,8 +24,7 @@ public class Restaurant {
 	@Column(name = "res_id")
 	private Long id;
 
-	private String addr1; // 주소
-
+	private String addr1; // 주소	
 	@Column(length = 500)
 	private String cntctTel; // 전화번호
 	@Lob
@@ -32,7 +34,6 @@ public class Restaurant {
 	private String mainImgNormal; // 메인이미지
 	private String mainImgThumb; // 썸네일이미지
 	private String mainTitle; // 식당이름
-
 	private String rprsntvMenu; // 대표메뉴
 
 	@Column(length = 500)

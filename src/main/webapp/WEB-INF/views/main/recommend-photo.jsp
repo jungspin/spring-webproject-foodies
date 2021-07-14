@@ -45,7 +45,6 @@
     cursor: pointer;
 }
 .post-slider .post-wrapper{
-
   width:84%;
   height:350px;
   margin:0px auto;
@@ -77,16 +76,15 @@
       <!--page slider -->
       <div class="post-slider">
         <h1 class="silder-title">추천 음식점</h1>
-        <i class="fas fa-chevron-left prev"></i>  
-        <i class="fas fa-chevron-right next"></i>  
+       
         <div class="post-wrapper">
          <c:forEach items="${lists}" var="restaurant" varStatus="st"> 
           <div class="post">
-            <img src="${restaurant.mainImgNormal}" class="slider-image">
+            <a href="/detail/${restaurant.id}"><img src="${restaurant.mainImgNormal}" class="slider-image">
             <div class="post-info">
-              <h4><a href="#">${restaurant.mainTitle} </a></h4>
+              <h4>${restaurant.mainTitle} </h4>
               <i class="far fa-user" style="height:10%;">${restaurant.itemcntnts }</i>
-            </div>
+            </div></a>
           </div>
          </c:forEach>
         </div>
@@ -122,5 +120,15 @@
     	  nextArrow:$('.next'),
     	  prevArrow:$('.prev'),
     	});</script>
+    	   <script>
+    $('.post-wrapper').slick({
+    	  slidesToShow: 3,
+    	  slidesToScroll: 2,
+    	  autoplay: true,
+    	  autoplaySpeed: 3000,
+    	  nextArrow:$('.next'),
+    	  prevArrow:$('.prev'),
+    	});</script>
+    	
 </body>
 </html>

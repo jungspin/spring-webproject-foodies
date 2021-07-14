@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>FOOODIES</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -21,32 +22,7 @@
     
 </head>
 <body>
-  <nav class="main-navi nav-down">
-        <div class="logo">
-            <a href="/">
-                <i class="fas fa-hamburger"></i>FOODIES
-            </a>
-        </div>
-        
-        <form class="">
-            <div class="search">
-                <input type="text" class="search-input" placeholder="지역 및 식당, 음식">
-                <button class="search-button"><i class="fas fa-search"></i></button>
-            </div>
-        </form>
 
-        <div class="menu" id="host">
-        <div class="item"><a href = "list">게시판</a></div>
-         	<sec:authorize access="isAuthenticated()">
-        	<div class="item"><a href="/member/mypage/<sec:authentication property="principal.member.id"/>">마이페이지</a></div>
-        	<div class="item"><a href="/logout">로그아웃</a></div>
-        	</sec:authorize>
-        	<sec:authorize access="isAnonymous()">
-        	<div class="item"><a href="/login">로그인</a></div>
-            <div class="item"><a href="/register">회원가입</a></div>
-            </sec:authorize>
-        </div>
-    </nav> 
 
 <div class="main-navi2">
         <div class="logo">
@@ -55,15 +31,14 @@
             </a>
         </div>
         
-        <form class="">
-            <div class="search2">
-                <input type="text" class="search-input" placeholder="지역 및 식당, 음식">
-                <button class="search-button"><i class="fas fa-search"></i></button>
+        <form action="search" method="get">
+            <div class="search">
+                <input type="text" name="keyword" class="search-input" placeholder="지역 및 식당, 음식">
+                <button class="search-button" name="searchBtn"><i class="fas fa-search"></i></button>
             </div>
         </form>
-
-        <div class="menu" id="host">
-         	<sec:authorize access="isAuthenticated()">
+ <div class="menu" id="host">
+        	<sec:authorize access="isAuthenticated()">
         	<div class="item"><a href="/member/mypage/<sec:authentication property="principal.member.id"/>">마이페이지</a></div>
         	<div class="item"><a href="/logout">로그아웃</a></div>
         	</sec:authorize>
@@ -71,11 +46,9 @@
         	<div class="item"><a href="/login">로그인</a></div>
             <div class="item"><a href="/register">회원가입</a></div>
             </sec:authorize>
-        
-      
             <div class="item"><a href = "list">게시판</a></div>
-
         </div>
+    
 </div> 
  <div class="container-fluid">
         <div class="explain">
@@ -83,5 +56,9 @@
             <h4>먹는 즐거움의 시작!</h4>
         </div>
     </div> 
+
+
+</body>
+</html>
 
     

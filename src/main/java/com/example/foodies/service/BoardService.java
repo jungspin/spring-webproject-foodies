@@ -1,5 +1,6 @@
 package com.example.foodies.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,47 +17,61 @@ import com.example.foodies.model.member.Member;
 import com.example.foodies.repository.BoardRepository;
 import com.example.foodies.repository.FreeBoardRepository;
 
-
-
 @Service
 public class BoardService {
-	
+
 	@Autowired
 	private BoardRepository boardRepository;
 	@Autowired
 	private FreeBoardRepository freeBoardRepository;
+
 	public Restaurant list(Long id) {
 		Restaurant restaurant = boardRepository.findById(id).get();
 		return restaurant;
 	}
+
 	@Transactional
-	public List<FreeBoard> findMemberAll(){
-		List<FreeBoard> freeboards=freeBoardRepository.findAll();
+	public List<FreeBoard> findMemberAll() {
+		List<FreeBoard> freeboards = freeBoardRepository.findAll();
 		for (int i = 0; i < freeboards.size(); i++)
-		System.out.println(freeboards.get(i));
+			System.out.println(freeboards.get(i));
 		return freeBoardRepository.findAll();
 	}
+	
 	@Transactional
-	public Optional<FreeBoard> findById(Long id){
+	public Optional<FreeBoard> findById(Long id) {
 		return freeBoardRepository.findById(id);
 	}
+
 	@Transactional
-	public List<Restaurant> findAll(){
+	public List<Restaurant> findAll() {
 		return boardRepository.findAll();
 	}
+	//자유게시판 전체보기
 	@Transactional
-	public Page<FreeBoard> findAll(Pageable pageable){
+	public Page<FreeBoard> findAll(Pageable pageable) {
 		return freeBoardRepository.findAll(pageable);
 	}
-	//개수
+
+	// 개수
 	@Transactional
 	public Long count() {
 		return boardRepository.count();
 	}
-	//자유게시판글쓰기
+
+	// 자유게시판글쓰기
 	@Transactional
-	public void insert( FreeBoard freeBoard, Member member) {
+	public void insert(FreeBoard freeBoard, Member member) {
 		freeBoard.setMember(member);
 		freeBoardRepository.save(freeBoard);
 	}
-}
+
+	//검색하기
+	@Transactional 
+	public List<Restaurant> findRestaurantsByKeyword(String keyword) {
+		 System.out.println(keyword);	 
+	return boardRepository.findRestaurantsByKeyword(keyword);
+	}
+	
+	}
+
