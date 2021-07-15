@@ -1,4 +1,4 @@
-package com.example.foodies.model;
+package com.example.foodies.model.test;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

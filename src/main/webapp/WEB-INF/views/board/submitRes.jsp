@@ -10,7 +10,7 @@
 	<table class="table table-borderless" style="border: solid 1px lightgray;">
 		<thead></thead>
 		<tbody>
-			<form action="/register" method="post" >
+			<form action="#" method="post" >
 				<tr>
 					<td>
 						<div class="form-group">

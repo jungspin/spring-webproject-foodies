@@ -20,8 +20,6 @@ public class LoginFailureHandler implements AuthenticationFailureHandler{
 			AuthenticationException exception) throws IOException, ServletException {
 		//System.out.println("실패 핸들러 탔당");
 		
-		
-		
 		String errorMsg = null;
 		
 		if (exception instanceof BadCredentialsException || exception instanceof InternalAuthenticationServiceException) {

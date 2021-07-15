@@ -85,7 +85,7 @@
     	<br/>
     	<br/>
     	<button type="button" class="btn btn-primary" id="btn-show">활동내역</button>
-    	<a href="/member/getInfo"><button type="button" class="btn btn-primary" id="btn-update">회원정보수정</button></a>
+    	<a href="/member/update/${member.id }"><button type="button" class="btn btn-primary" id="btn-update">회원정보수정</button></a>
     </div>
   </div>
 </div>

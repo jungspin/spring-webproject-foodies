@@ -1,7 +1,6 @@
 package com.example.foodies.controller;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.foodies.config.auth.PrincipalDetails;
-import com.example.foodies.model.FreeBoard;
 import com.example.foodies.model.Restaurant;
+import com.example.foodies.model.freeboard.FreeBoard;
 import com.example.foodies.service.BoardService;
 import com.example.foodies.service.MemberService;
 import com.example.foodies.service.RestaurantService;
@@ -32,6 +31,7 @@ public class BoardController {
 	private MemberService memberService;
 	@Autowired
 	private RestaurantService restaurantService;
+	
 	@GetMapping("/")
 	public String home(Model model) {
 		
@@ -45,6 +45,7 @@ public class BoardController {
 			model.addAttribute("lists", lists);
 		return "/main/home";
 	}
+	
 	// 자유게시판==> 페이징
 	@GetMapping("list")
 	public String list(Model model,

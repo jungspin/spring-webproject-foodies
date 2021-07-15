@@ -12,7 +12,14 @@ import javax.persistence.ManyToOne;
 
 import com.example.foodies.model.member.Member;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 // 관심등록을 위한 테이블입니다
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 public class Bookmark {
 	

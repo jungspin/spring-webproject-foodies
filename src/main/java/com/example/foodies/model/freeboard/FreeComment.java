@@ -1,4 +1,4 @@
-package com.example.foodies.model;
+package com.example.foodies.model.freeboard;
 
 import java.util.Date;
 
@@ -19,10 +19,17 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.example.foodies.model.member.Member;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+
+// 자유게시판 댓글
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Data
-
 @Entity
 @Table(name = "freecomment")
 public class FreeComment {

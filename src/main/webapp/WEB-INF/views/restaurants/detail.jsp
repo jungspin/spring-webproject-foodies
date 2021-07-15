@@ -99,18 +99,24 @@
             <h6>주소</h6>
             <div>${restaurant.addr1}</div><br>
         </div>
-        <!-- 지도를 표시할 div 입니다 -->
+        
+        
+   <!--      지도를 표시할 div 입니다 -->
         <div class="details-side">
-            <!-- 지도 위쪽 메뉴 -->
+           <!--  지도 위쪽 메뉴 -->
             <div class="side-menu">
                 <div class="side-bottons">
                 </div>
             </div>
             <div id="map" style="width:20vw;height:25vw;"></div>
-        </div>
+        </div> 
+        
+        
+        <a href="/member/review/${restaurant.id }"><button type="button" class="btn btn-warning" id="btn-submit">리뷰쓰기</button></a>
     </div>
-    <script type="text/javascript"
-        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9d918e400d0d27925a89d2d4d6ccd0db"></script>
+  <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9d918e400d0d27925a89d2d4d6ccd0db"></script> 
+ 
    <!--  <script>
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
@@ -162,8 +168,9 @@ var infowindow = new kakao.maps.InfoWindow({
 });
   
 // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-infowindow.open(map, marker); 
-    
+infowindow.open(map, marker);  
+
+
     </script>
 </body>
 

@@ -1,4 +1,4 @@
-package com.example.foodies.model;
+package com.example.foodies.model.freeboard;
 
 import java.util.Date;
 import java.util.List;
@@ -25,10 +25,16 @@ import com.example.foodies.model.member.Member;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 // 자유게시판!!
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Data
 @Entity
 @Table(name = "freeboard")
@@ -38,13 +44,13 @@ public class FreeBoard {
 	@Column(name = "freeboard_id")
 	private Long id;
 	
-	private String title;
+	private String title; // 제목
 	@Lob
-	private String content;
+	private String content; // 내용
 	
-	private Integer replyCnt; // prePersist 이거 쓰려고 타입 변경했습니다 참고해주세요!
+	private Integer replyCnt; // 댓글 // prePersist 이거 쓰려고 타입 변경했습니다 참고해주세요!
 	
-	private Integer clickCnt;
+	private Integer clickCnt; // 조회수
 	
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
@@ -53,11 +59,11 @@ public class FreeBoard {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
-	private Member member;
+	private Member member; // 글쓴이
 	
 	@OneToMany(mappedBy = "freeBoard", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("freeBoard") // 무한참조 방지
-	private List<FreeComment> freeComment;
+	private List<FreeComment> freeComment; // 댓글
 	
 	@PrePersist // db에 해당 테이블의 insert 연산 시 같이 실행
 	public void prePersist() {
