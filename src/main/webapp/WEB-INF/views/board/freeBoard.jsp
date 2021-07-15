@@ -20,11 +20,11 @@
 			</tr>
 		</thead>
 		<tbody>
-			  <c:forEach items="${lists}" var="board" varStatus="st">
+			  <c:forEach items="${lists.content}" var="board" varStatus="st">
 				<tr>
 					<td>${ board.id}</td>
 					<td><a href="/board/view/${board.id}">${board.title }(${board.replyCnt })</a></td>
-					<td>${board.member.id }</td>
+					<td>${board.member.username }</td>
 					<td><fmt:formatDate value="${board.regDate }" pattern="yyyy-MM-dd" /></td>
 					<td>${board.clickCnt }</td>
 				</tr>
@@ -32,7 +32,7 @@
 		
 		</tbody>
 	</table>
-	<%-- <div class="d-flex justify-content-between mt-3">
+	<div class="d-flex justify-content-between mt-3">
 		<ul class="pagination">
 			<c:if test="${lists.first ==  false }">
 				<li class="page-item"><a class="page-link" href="?page=${lists.number-1 }">Previous</a></li>
@@ -41,7 +41,7 @@
 				<li class="page-item"><a class="page-link" href="?page=${lists.number+1 }">Next</a></li>
 			</c:if>
 		</ul>
-	</div> --%>
+	</div>
 
 
 
