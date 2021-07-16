@@ -306,5 +306,14 @@
 	</script>
 
 
+
+</head>
+<jsp:include page="../includes/header.jsp"></jsp:include>
+<jsp:include page="../includes/banner.jsp"></jsp:include>
+
+<jsp:include page="./recommend-photo.jsp"></jsp:include>
+
+    
+
 </body>
 </html>

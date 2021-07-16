@@ -1,8 +1,6 @@
 package com.example.foodies.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -38,9 +36,15 @@ public class BoardService {
 		return freeBoardRepository.findAll();
 	}
 
+
+
+	//자유게시판상세보기 
+
 	@Transactional
-	public Optional<FreeBoard> findById(Long id) {
-		return freeBoardRepository.findById(id);
+	public FreeBoard findById(Long id) {
+		FreeBoard freeBoard = freeBoardRepository.findById(id).get();
+		freeBoard.setClickCnt(freeBoard.getClickCnt()+1);
+		return freeBoardRepository.findById(id).get();
 	}
 
 	@Transactional
@@ -67,8 +71,27 @@ public class BoardService {
 		freeBoardRepository.save(freeBoard);
 	}
 
-	// 검색하기
+	//자유게시판 수정 
+	@Transactional 
+	public void update(FreeBoard freeBoard) {
+		FreeBoard b = freeBoardRepository.findById(freeBoard.getId()).get();
+		b.setContent(freeBoard.getContent());
+		b.setTitle(freeBoard.getTitle());
+	}
+	//자유게시판 수정폼
 	@Transactional
+	public FreeBoard view(Long id) {
+	 FreeBoard freeboard =	freeBoardRepository.findById(id).get();
+	 return freeboard;
+	}
+	//자유게시판 삭제
+	
+	@Transactional
+	public void delete(Long id) {
+		freeBoardRepository.deleteById(id);
+	}
+	//검색하기
+	@Transactional 
 	public List<Restaurant> findRestaurantsByKeyword(String keyword) {
 		System.out.println(keyword);
 		return boardRepository.findRestaurantsByKeyword(keyword);

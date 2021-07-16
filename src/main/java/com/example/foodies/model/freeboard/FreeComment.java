@@ -1,3 +1,4 @@
+
 package com.example.foodies.model.freeboard;
 
 import java.util.Date;
@@ -55,3 +56,4 @@ public class FreeComment {
 	private FreeBoard freeBoard; // 자유게시판과 양방향 참조
 
 }
+

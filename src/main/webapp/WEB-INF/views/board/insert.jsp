@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../includes/header.jsp"%>
+  
 <div class="container">
 	<h3>Board insert</h3>
 	<br />
@@ -11,8 +12,8 @@
 		</div>
 		<div class="form-group">
 			<label for="writer">글쓴이:</label> 
-			<input type="text" class="form-control" id="writer" 
-			placeholder="Enter writer" name="writer" value="${principal.member.username}"  >
+			<input type="text" class="form-control" id="username" 
+			placeholder="Enter writer" name="username" value="${principal.member.username}"  >
 		</div>
 		<div class="form-group">
 			<label for="content">내용:</label>
@@ -21,6 +22,7 @@
 
 		<button type="submit" class="btn btn-primary">글쓰기</button>
 	</form>
+
 </div>
 </body>
 </html>
