@@ -9,8 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.foodies.model.FreeBoard;
 import com.example.foodies.model.Restaurant;
+import com.example.foodies.model.freeboard.FreeBoard;
 import com.example.foodies.model.member.Member;
 import com.example.foodies.repository.BoardRepository;
 import com.example.foodies.repository.FreeBoardRepository;

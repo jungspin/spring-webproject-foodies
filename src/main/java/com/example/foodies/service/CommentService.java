@@ -8,8 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.foodies.model.FreeBoard;
-import com.example.foodies.model.FreeComment;
+import com.example.foodies.model.freeboard.FreeComment;
 import com.example.foodies.repository.CommentRepository;
 import com.example.foodies.repository.FreeBoardRepository;
 

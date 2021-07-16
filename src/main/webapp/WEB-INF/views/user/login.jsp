@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,27 +13,54 @@
 </head>
 <body> -->
 <jsp:include page="../includes/header.jsp"></jsp:include>
+<style>
+.button {
+  background-color: orange;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 12px 0 14px;
+  border: 1px solid orange;
+  border-radius: 5px;
+  height: 40px;
+  width: 300px;
+}
+.input {
+  height: 40px;
+  width: 300px;
+  border-radius: 5px;
+  font-size: 20px;
+  border: 1px solid gray;
+}
+.div {
+ width: "80%";
+  margin: "0 auto";
+  text-align: center;
+
+}
+</style>
+
  <br/>
  <br/>
  <br/>
-<div class="container">
+<div class="div">
   <h2>임시 로그인 페이지</h2>
   <form action="/loginProc" method="post">
   <div class="form-group">
-      <label for="id">아이디</label>
-      <input type="text" class="form-control" id="username" placeholder="아이디를 입력해주세요" name="username">
-      <div id="erroeMsg" style="color: red">${errorMessage}</div>
-      <!-- id 값 읽어서 비어있으면 말고 있으면 alert.. -->
+      <input type="text" class="input" id="username" placeholder="아이디를 입력해주세요" name="username">
     </div>
     <div class="form-group">
-      <label for="pwd">비밀번호</label>
-      <input type="password" class="form-control" id="password" placeholder="비밀번호를 입력해주세요" name="password">
+      <input type="password" class="input" id="password" placeholder="비밀번호를 입력해주세요" name="password">
     </div>
 
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="button">로그인</button>
   </form> 
 </div>
-
+<c:if test="${not empty errorMessage }">
+<script>
+alert("${errorMessage}");
+</script>
+</c:if>
 
 </body>
 </html>

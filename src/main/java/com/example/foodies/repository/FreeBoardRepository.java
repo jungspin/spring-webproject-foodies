@@ -2,7 +2,9 @@ package com.example.foodies.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.foodies.model.FreeBoard;
+import com.example.foodies.model.freeboard.FreeBoard;
+
+
 
 
 public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long>{

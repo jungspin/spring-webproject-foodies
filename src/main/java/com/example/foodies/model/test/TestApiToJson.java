@@ -1,4 +1,4 @@
-package com.example.foodies.model;
+package com.example.foodies.model.test;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;

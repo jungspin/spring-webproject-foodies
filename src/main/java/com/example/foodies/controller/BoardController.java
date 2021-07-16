@@ -1,7 +1,6 @@
 package com.example.foodies.controller;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.foodies.config.auth.PrincipalDetails;
-import com.example.foodies.model.FreeBoard;
-import com.example.foodies.model.FreeComment;
 import com.example.foodies.model.Restaurant;
+import com.example.foodies.model.freeboard.FreeBoard;
 import com.example.foodies.service.BoardService;
 import com.example.foodies.service.CommentService;
 import com.example.foodies.service.MemberService;
@@ -60,7 +58,7 @@ public class BoardController {
 			@PageableDefault(size=5, sort = "id", direction = Sort.Direction.DESC)
 	                   Pageable pageable) {
 		
-		Page<FreeBoard> lists=boardService.findAll(pageable);
+		Page<FreeBoard> lists= boardService.findAll(pageable);
 		model.addAttribute("count", boardService.count());
 		model.addAttribute("rowNo", boardService.count()-(lists.getNumber()*5));
 		model.addAttribute("lists",lists);
@@ -99,7 +97,7 @@ public class BoardController {
 			 * List<FreeComment> freeComment =commentService.list(freeBoard);
 			 * model.addAttribute("freeComment",freeComment);
 			 */
-		FreeBoard f = boardService.findById(id);
+		 FreeBoard f = boardService.findById(id);
 		 model.addAttribute("freeBoard", f);
 		
 		 model.addAttribute("principal", principal);

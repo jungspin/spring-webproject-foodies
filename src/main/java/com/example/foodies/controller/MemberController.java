@@ -1,31 +1,38 @@
 package com.example.foodies.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.foodies.config.auth.PrincipalDetails;
 import com.example.foodies.handler.CunstomValidationException;
+import com.example.foodies.model.Restaurant;
 import com.example.foodies.model.member.AuthMailDTO;
+import com.example.foodies.model.member.LoginReqDTO;
 import com.example.foodies.model.member.Member;
 import com.example.foodies.model.member.RegisterDTO;
-import com.example.foodies.repository.MemberRepository;
 import com.example.foodies.service.MemberService;
 
 
@@ -40,8 +47,12 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
-	@Autowired
-	private MemberRepository memberRepository;
+	// 로그인 폼
+	//@GetMapping("/login")
+	@RequestMapping("/login") // 이것때문에 failure 핸들러에서 오류났음 405
+	public String login() {
+		return "/user/login";
+	}
 
 	// 회원가입 폼으로 가기
 	@GetMapping("/register")
@@ -50,34 +61,6 @@ public class MemberController {
 		return "/user/register";
 	}
 	
-	// 회원가입
-	@PostMapping("/register")
-	public String register(@Valid RegisterDTO registerDTO, BindingResult bindingResult) {
-		//System.out.println("original : " + registerDTO);
-		
-		if (bindingResult.hasErrors()) {
-			Map<String, String> errorMap = new HashMap<>();
-			for (FieldError error : bindingResult.getFieldErrors()) {
-				errorMap.put(error.getField(), error.getDefaultMessage());
-				System.out.println(error.getDefaultMessage());
-				
-			}
-			throw new CunstomValidationException("유효성 검사 실패", errorMap);
-		} else {
-			Member member = registerDTO.toEntity();
-			memberService.register(member);
-			//System.out.println("new : " + member);
-			return "/user/login";
-		}
-		
-	}
-
-	// 로그인 폼
-	//@GetMapping("/login")
-	@RequestMapping("/login") // 이것때문에 failure 핸들러에서 오류났음 405
-	public String login() {
-		return "/user/login";
-	}
 
 	// 아이디 중복검사
 	@PostMapping("/register/checkId")
@@ -115,7 +98,7 @@ public class MemberController {
 		}
 		int numIndex = random.nextInt(9999) + 1000; // 4자리 랜덤 정수를 생성
 		authKey += numIndex;
-		message.setSubject("Foodies 가입을 위한 이메일 인증을 완료해주세요");
+		message.setSubject("Foodies 이메일 인증을 완료해주세요");
 		message.setText("인증 번호 : " + authKey);
 		javaMailSender.send(message);
 		
@@ -139,6 +122,30 @@ public class MemberController {
 		return "success";
 	}
 	
+	
+	// 회원가입
+	@PostMapping("/register")
+	public String register(@Valid RegisterDTO registerDTO, BindingResult bindingResult) {
+		//System.out.println("original : " + registerDTO);
+		
+		if (bindingResult.hasErrors()) {
+			Map<String, String> errorMap = new HashMap<>();
+			for (FieldError error : bindingResult.getFieldErrors()) {
+				errorMap.put(error.getField(), error.getDefaultMessage());
+				System.out.println(error.getDefaultMessage());
+				
+			}
+			throw new CunstomValidationException("유효성 검사 실패", errorMap);
+		} else {
+			Member member = registerDTO.toEntity();
+			memberService.register(member);
+			//System.out.println("new : " + member);
+			return "/user/login";
+		}
+		
+	}
+
+
 	// ================== 여기서부터 member 권한이 있어야 접근이 가능합니다 ==========================
 	
 	// 마이페이지
@@ -151,21 +158,64 @@ public class MemberController {
 	
 	// 회원정보 보기전 비밀번호 확인 폼
 	@GetMapping("/member/getInfo")
-	public String getInfo() {
+	public String getInfo(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
+		//System.out.println(principal);
+		model.addAttribute("principal", principal);
 		return "/user/getInfo";
 	}
 	
 	// 비밀번호 확인 후 회원수정 페이지 가기
 	@PostMapping("/member/getInfo")
-	public String getInfo(Long id, String username,String password, Model model) {
-		int result = memberService.findByPassword(username, password);
-		
+	@ResponseBody
+	public String getUpdate(@RequestBody LoginReqDTO loginReqDTO, Model model) {
+		System.out.println("수정페이지 가는 컨트롤러");
+		//System.out.println(loginReqDTO);
+		int result = memberService.matchPassword(loginReqDTO);
+		//System.out.println(result);
 		if (result != 1) {
-			return null;
+			return "fail";
+		} else {
+			return "success";
 		}
-		Member member = memberRepository.findById(id).get();
-		model.addAttribute("member", member);
-		return "/user/info";
+		//Member member = memberService.findById(loginReqDTO.getId());
+		//model.addAttribute("member", member);
+		
+	}
+	// 수정 페이지 가기
+	@GetMapping("/member/update/{id}")
+	public String update(@PathVariable Long id, Model model) {
+		model.addAttribute("member", memberService.findById(id));
+		return "/user/update";
+	}
+	
+	// 수정하기
+	@PutMapping("/member/update")
+	@ResponseBody
+	public String update(@RequestBody @Valid RegisterDTO registerDTO, BindingResult bindingResult) {
+		System.out.println("수정컨트롤러 탔당");
+		//System.out.println(registerDTO);
+		if (bindingResult.hasErrors()) {
+			Map<String, String> errorMap = new HashMap<>();
+			for (FieldError error : bindingResult.getFieldErrors()) {
+				errorMap.put(error.getField(), error.getDefaultMessage());
+				System.out.println(error.getDefaultMessage());
+				
+			}
+			throw new CunstomValidationException("유효성 검사 실패", errorMap);
+		} else {
+			Member member = registerDTO.toEntity();
+			memberService.update(member);
+			//System.out.println("new : " + member);
+			return "success";
+		}
+	}
+	
+	// 탈퇴하기
+	@DeleteMapping("/member/delete/{id}")
+	@ResponseBody
+	public String delete(@PathVariable Long id) {
+		memberService.delete(id);
+		return "success";
 	}
 	
 	// ================== 여기서부터 manager 권한이 있어야 접근이 가능합니다 ==========================
@@ -174,6 +224,32 @@ public class MemberController {
 	@GetMapping("/manager")
 	public String manager() {
 		return "/user/manager";
+	}
+	
+	// 식당 등록 페이지 가기
+	@GetMapping("/manager/submit")
+	public String restaurnt() {
+		return "/board/submitRes";
+	}
+	
+	// 식당 등록
+	@PostMapping("/manager/submit")
+	public String restaurnt(Restaurant restaurant, HttpServletRequest requset) throws IOException {
+		String saveDir = requset.getSession().getServletContext().getRealPath("/");
+		saveDir += "resource\\img\\";
+		
+		System.out.println("saveDir = " + saveDir);
+		
+		//MultipartFile file = new 
+		
+		
+		return "/board/submitRes"; // 등록완료시 해당 식당 상세보기로 가야됨.
+	}
+	
+	// 식당 위치 등록 페이지 호출
+	@RequestMapping("/manager/juso")
+	public String juso() {
+		return "/user/jusoPopup";
 	}
 
 }

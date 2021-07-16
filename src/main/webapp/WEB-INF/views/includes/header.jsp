@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" type="text/css" href="./css/slick.css">
     <link rel="stylesheet" type="text/css" href="/css/slick-theme.css">
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -37,16 +37,22 @@
                 <button class="search-button" name="searchBtn"><i class="fas fa-search"></i></button>
             </div>
         </form>
- <div class="menu" id="host">
-        	<sec:authorize access="isAuthenticated()">
+ 		<div class="menu" id="host">
+           <div class="item"><a href = "list">게시판</a></div>
+         	<%-- <sec:authorize access="isAuthenticated()"></sec:authorize> --%>
+         	<sec:authorize access="hasRole('ROLE_Member')">
         	<div class="item"><a href="/member/mypage/<sec:authentication property="principal.member.id"/>">마이페이지</a></div>
         	<div class="item"><a href="/logout">로그아웃</a></div>
         	</sec:authorize>
+        	
         	<sec:authorize access="isAnonymous()">
         	<div class="item"><a href="/login">로그인</a></div>
             <div class="item"><a href="/register">회원가입</a></div>
             </sec:authorize>
-            <div class="item"><a href = "list">게시판</a></div>
+              <sec:authorize access="hasRole('ROLE_Manager')">
+            <div class="item"><a href="/manager/submit">식당등록</a></div>
+            <div class="item"><a href="/logout">로그아웃</a></div>
+            </sec:authorize>
         </div>
     
 </div> 

@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -62,16 +61,25 @@ public class ApiTestService {
 				String addr1 = (String) obj3.get("ADDR1");
 				String cntctTel = (String) obj3.get("CNTCT_TEL");
 				String itemcntnts = (String) obj3.get("ITEMCNTNTS");
-				Double lat = (Double) obj3.get("LAT");
-				Double lng = (Double) obj3.get("LNG");
-				String mainImgNormal = (String) obj3.get("MAIN_IMG_NORMAL");
-				String mainImgThumb = (String) obj3.get("MAIN_IMG_THUMB");
+				String img = (String) obj3.get("MAIN_IMG_NORMAL"); // 얘네는 사진 테이블에 담겨야함
+				String thumb = (String) obj3.get("MAIN_IMG_THUMB"); // 얘네는 사진 테이블에 담겨야함
 				String mainTitle = (String) obj3.get("MAIN_TITLE");
 				String rprsntvMenu = (String) obj3.get("RPRSNTV_MENU");
 				String usageDayWeekAndTime = (String) obj3.get("USAGE_DAY_WEEK_AND_TIME");
 
-				Restaurant restaurant = new Restaurant(null, addr1, cntctTel, itemcntnts, lat, lng, mainImgNormal, mainImgThumb,
-						mainTitle, rprsntvMenu, usageDayWeekAndTime);
+				Restaurant restaurant = new Restaurant().builder()
+										.id(null)
+										.mainTitle(mainTitle)
+										.addr1(addr1)
+										.cntctTel(cntctTel)
+										.itemcntnts(itemcntnts)
+										.mainImgNormal(img)
+										.mainImgThumb(thumb)
+										.rprsntvMenu(rprsntvMenu)
+										.usageDayWeekAndTime(usageDayWeekAndTime)
+										.build();
+				
+										
 				System.out.println(restaurant);
 				apiTestRepository.save(restaurant);
 				

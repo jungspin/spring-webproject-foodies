@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.foodies.model.member.LoginReqDTO;
 import com.example.foodies.model.member.Member;
 import com.example.foodies.model.member.Role;
 import com.example.foodies.repository.MemberRepository;
@@ -57,19 +58,17 @@ public class MemberService {
 	}
 	
 	// 비밀번호 찾기?
-	public int findByPassword(String username,String password) {
+	public int matchPassword(LoginReqDTO loginReqDTO) {
 		//System.out.println(username);
-		Member member = memberRepository.findByUsername(username);
-		//System.out.println(password);
-		//System.out.println(member.getPassword());
-		//System.out.println(encoder.matches(password, member.getPassword()));
+		Member member = memberRepository.findById(loginReqDTO.getId()).get();
 		
-		
-		if (!encoder.matches(password, member.getPassword())) {
+		if (!encoder.matches(loginReqDTO.getPassword(), member.getPassword())) {
 			return -1; // 비밀번호 불일치
+		} else {
+			return 1; // 비밀번호 일치
 		}
 		
-		return 1; // 비밀번호 일치
+		
 	}
 	
 	//멤버 찾기 
@@ -84,6 +83,25 @@ public class MemberService {
 		return memberRepository.findById(id).get();
 	}
 	
+	// 회원정보수정
+	@Transactional
+	public void update(Member member) {
+		Member mem = memberRepository.findById(member.getId()).get();
+		// 비밀번호 암호화
+		String rawPW = member.getPassword();
+		String encPW = encoder.encode(rawPW);
+		
+		mem.setPassword(encPW);
+		mem.setEmail(member.getEmail());
+		mem.setGender(member.getGender());
+		mem.setAge(member.getAge());
+		//System.out.println(mem);
+	}
+	
+	// 탈퇴하기
+	public void delete(Long id) {
+		memberRepository.deleteById(id);
+	}
 	
 
 }

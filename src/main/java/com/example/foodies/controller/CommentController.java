@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.foodies.config.auth.PrincipalDetails;
-import com.example.foodies.model.FreeBoard;
-import com.example.foodies.model.FreeComment;
+import com.example.foodies.model.freeboard.FreeBoard;
+import com.example.foodies.model.freeboard.FreeComment;
 import com.example.foodies.service.CommentService;
 @Controller
 public class CommentController {
