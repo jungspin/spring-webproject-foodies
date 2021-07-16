@@ -1,3 +1,4 @@
+
 package com.example.foodies.model.freeboard;
 
 import java.util.Date;
@@ -30,18 +31,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 // 자유게시판!!
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Data
 @Entity
-@Table(name = "freeboard")
-public class FreeBoard {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "freeboard_id")
+@Table(name = "freeboard") 
+public class FreeBoard { 
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	@Column(name = "freeboard_id") 
 	private Long id;
 	
 	private String title; // 제목
@@ -71,3 +71,4 @@ public class FreeBoard {
 		this.replyCnt = this.replyCnt == null ? 0 : this.replyCnt;
 	}
 }
+

@@ -21,7 +21,7 @@
 		<tbody>
 			<tr>
 				<td>
-					<div class="form-group">
+					<div class="form-group"></div>
 					<input type="text" class="form-control chk" id="username" value="${member.username }" name="username" readonly="readonly"/>
 					<input type="hidden" id="id" value="${member.id }"/>
 				</td>
@@ -123,6 +123,7 @@
 		</tbody>
 	</table>
 </div>
+
 <script src="/js/update.js"></script>
 <script>
 // 탈퇴
@@ -204,4 +205,6 @@ $("#btn-update").on('click', function(){
 })			
 </script>
 </body>
+
+
 </html>

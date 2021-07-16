@@ -6,7 +6,6 @@ import com.example.foodies.model.freeboard.FreeBoard;
 
 
 
-
 public interface FreeBoardRepository extends JpaRepository<FreeBoard, Long>{
 	
 	public void deleteById(Long id);

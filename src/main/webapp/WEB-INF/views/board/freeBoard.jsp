@@ -23,7 +23,7 @@
 			  <c:forEach items="${lists.content}" var="board" varStatus="st">
 				<tr>
 					<td>${ board.id}</td>
-					<td><a href="/board/view/${board.id}">${board.title }(${board.replyCnt })</a></td>
+					<td><a href="/board/view/${board.id}">${board.title }( 댓글 :${board.replyCnt })</a></td>
 					<td>${board.member.username }</td>
 					<td><fmt:formatDate value="${board.regDate }" pattern="yyyy-MM-dd" /></td>
 					<td>${board.clickCnt }</td>

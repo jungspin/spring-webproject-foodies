@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.foodies.model.freeboard.FreeBoard;
 import com.example.foodies.model.freeboard.FreeComment;
 import com.example.foodies.repository.CommentRepository;
 import com.example.foodies.repository.FreeBoardRepository;
@@ -22,8 +23,8 @@ public class CommentService {
 	@Transactional
 	public void insert(FreeComment comment) {
 		//board 의 replyCnt 를 1증가
-		//Optional<FreeBoard>	freeboard = freeBoardRepository.findById(comment.getFreeBoard().getId());
-		//freeboard.get().setReplycnt(freeboard.get().getReplycnt()+1);
+		Optional<FreeBoard>	freeboard = freeBoardRepository.findById(comment.getFreeBoard().getId());
+		freeboard.get().setReplyCnt(freeboard.get().getReplyCnt()+1);
 	
 		//JPQL
 		commentRepository.commentInsert(

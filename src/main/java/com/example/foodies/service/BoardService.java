@@ -35,9 +35,11 @@ public class BoardService {
 			System.out.println(freeboards.get(i));
 		return freeBoardRepository.findAll();
 	}
-	
+	//자유게시판상세보기 
 	@Transactional
 	public FreeBoard findById(Long id) {
+		FreeBoard freeBoard = freeBoardRepository.findById(id).get();
+		freeBoard.setClickCnt(freeBoard.getClickCnt()+1);
 		return freeBoardRepository.findById(id).get();
 	}
 

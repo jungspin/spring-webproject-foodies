@@ -30,10 +30,10 @@ import com.example.foodies.config.auth.PrincipalDetails;
 import com.example.foodies.handler.CunstomValidationException;
 import com.example.foodies.model.Restaurant;
 import com.example.foodies.model.member.AuthMailDTO;
-import com.example.foodies.model.member.LoginReqDTO;
 import com.example.foodies.model.member.Member;
 import com.example.foodies.model.member.RegisterDTO;
 import com.example.foodies.service.MemberService;
+import com.example.foodies.service.RestaurantService;
 
 
 // 주소설계
@@ -46,6 +46,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private RestaurantService restaurantService;
 	
 	// 로그인 폼
 	//@GetMapping("/login")
@@ -155,7 +158,7 @@ public class MemberController {
 		return "/user/mypage";
 	}
 	
-	
+	/*
 	// 회원정보 보기전 비밀번호 확인 폼
 	@GetMapping("/member/getInfo")
 	public String getInfo(@AuthenticationPrincipal PrincipalDetails principal, Model model) {
@@ -163,8 +166,10 @@ public class MemberController {
 		model.addAttribute("principal", principal);
 		return "/user/getInfo";
 	}
+	*/
 	
-	// 비밀번호 확인 후 회원수정 페이지 가기
+	/*
+	// 비밀번호 확인후 수정페이지 이동
 	@PostMapping("/member/getInfo")
 	@ResponseBody
 	public String getUpdate(@RequestBody LoginReqDTO loginReqDTO, Model model) {
@@ -181,6 +186,8 @@ public class MemberController {
 		//model.addAttribute("member", member);
 		
 	}
+	*/
+	
 	// 수정 페이지 가기
 	@GetMapping("/member/update/{id}")
 	public String update(@PathVariable Long id, Model model) {
@@ -214,8 +221,22 @@ public class MemberController {
 	@DeleteMapping("/member/delete/{id}")
 	@ResponseBody
 	public String delete(@PathVariable Long id) {
-		memberService.delete(id);
-		return "success";
+
+		try {
+			memberService.delete(id); // 그냥 덜렁 이렇게 두면 위험하다고 함
+			return "success";
+		} catch (Exception e) {
+			return "없는 아이디는 삭제할 수 없습니다.";
+		}
+	}
+	
+	// 리뷰쓰기 페이지 이동
+	@GetMapping("/member/review/{id}")
+	public String reviewForm(@PathVariable Long id, Model model, @AuthenticationPrincipal PrincipalDetails principal) {
+		Restaurant restaurant = restaurantService.findById(id);
+		model.addAttribute("restaurant", restaurant);
+		model.addAttribute("principal", principal);
+		return "/board/review";
 	}
 	
 	// ================== 여기서부터 manager 권한이 있어야 접근이 가능합니다 ==========================
@@ -235,10 +256,10 @@ public class MemberController {
 	// 식당 등록
 	@PostMapping("/manager/submit")
 	public String restaurnt(Restaurant restaurant, HttpServletRequest requset) throws IOException {
-		String saveDir = requset.getSession().getServletContext().getRealPath("/");
-		saveDir += "resource\\img\\";
+		//String saveDir = requset.getSession().getServletContext().getRealPath("/");
+		//saveDir += "resource\\img\\";
 		
-		System.out.println("saveDir = " + saveDir);
+		//System.out.println("saveDir = " + saveDir);
 		
 		//MultipartFile file = new 
 		

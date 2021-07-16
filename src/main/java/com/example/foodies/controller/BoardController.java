@@ -37,8 +37,10 @@ public class BoardController {
 	private MemberService memberService;
 	@Autowired
 	private RestaurantService restaurantService;
+
 	@Autowired
 	private CommentService commentService;
+
 	@GetMapping("/")
 	public String home(Model model) {
 		
@@ -52,6 +54,7 @@ public class BoardController {
 			model.addAttribute("lists", lists);
 		return "/main/home";
 	}
+	
 	// 자유게시판==> 페이징
 	@GetMapping("list")
 	public String list(Model model,
