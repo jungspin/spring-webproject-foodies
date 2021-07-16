@@ -33,7 +33,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		//System.out.println("roleNames : " + roleNames);
 
 		if (roleNames.contains("ROLE_Manager")) { // 권한이 매니저면 관리자페이지로 향함
-			response.sendRedirect("/manager");
+			response.sendRedirect("/");
 			return;
 		} else {
 			response.sendRedirect("/"); // 일반 유저일 경우 홈페이지로 가기

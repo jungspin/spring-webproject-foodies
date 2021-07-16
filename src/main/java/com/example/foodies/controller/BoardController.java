@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.foodies.config.auth.PrincipalDetails;
+import com.example.foodies.model.RestAttach;
 import com.example.foodies.model.Restaurant;
 import com.example.foodies.model.freeboard.FreeBoard;
 import com.example.foodies.service.BoardService;
@@ -37,8 +38,8 @@ public class BoardController {
 		
 		  // 난수 생성 해보면 좋을듯
 	  
-		 Long id = (long) 2; Restaurant restaurant = boardService.list(id);
-		 model.addAttribute("food", restaurant);
+		 //Long id = (long) 2; Restaurant restaurant = boardService.list(id);
+		 //model.addAttribute("food", restaurant);
 		 
 		 ////추천식당 목록
 		 List<Restaurant> lists=boardService.findAll();
@@ -80,7 +81,9 @@ public class BoardController {
 	@GetMapping("detail/{id}")
 	 public String detail(Model model,@PathVariable Long id) {
 		Restaurant restaurant = restaurantService.findById(id);
+		List<RestAttach> attachList =  restaurantService.findByRestaurant(restaurant);
 		 model.addAttribute("restaurant", restaurant);
+		 model.addAttribute("attachList", attachList);
 		 return "/restaurants/detail";
 	 }
 	//검색
