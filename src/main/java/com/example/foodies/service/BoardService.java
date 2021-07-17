@@ -35,7 +35,11 @@ public class BoardService {
 			System.out.println(freeboards.get(i));
 		return freeBoardRepository.findAll();
 	}
+
+
+
 	//자유게시판상세보기 
+
 	@Transactional
 	public FreeBoard findById(Long id) {
 		FreeBoard freeBoard = freeBoardRepository.findById(id).get();
@@ -47,7 +51,8 @@ public class BoardService {
 	public List<Restaurant> findAll() {
 		return boardRepository.findAll();
 	}
-	//자유게시판 전체보기
+
+	// 자유게시판 전체보기
 	@Transactional
 	public Page<FreeBoard> findAll(Pageable pageable) {
 		return freeBoardRepository.findAll(pageable);
@@ -65,8 +70,8 @@ public class BoardService {
 		freeBoard.setMember(member);
 		freeBoardRepository.save(freeBoard);
 	}
+
 	//자유게시판 수정 
-	
 	@Transactional 
 	public void update(FreeBoard freeBoard) {
 		FreeBoard b = freeBoardRepository.findById(freeBoard.getId()).get();
@@ -88,9 +93,10 @@ public class BoardService {
 	//검색하기
 	@Transactional 
 	public List<Restaurant> findRestaurantsByKeyword(String keyword) {
-		 System.out.println(keyword);	 
-	return boardRepository.findRestaurantsByKeyword(keyword);
+		System.out.println(keyword);
+		return boardRepository.findRestaurantsByKeyword(keyword);
 	}
 	
-	}
+	
 
+}

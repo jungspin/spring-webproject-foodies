@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:include page="../includes/header.jsp"></jsp:include>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +26,7 @@
 
 <body>
     <!-- 네비게이션 -->
-    <nav class="main-navi nav-down">
+   <!--  <nav class="main-navi nav-down">
         <div class="logo">
             <a href="/">
                 <i class="fas fa-hamburger"></i>FOODIES
@@ -42,7 +44,7 @@
             <div class="item"><a href="/login">로그인</a></div>
             <div class="item"><a href="list">게시판</a></div>
         </div>
-    </nav>
+    </nav> -->
 
     <div class="headerdiv"></div>
 
@@ -67,13 +69,51 @@
             </ul>
 
             <!-- The slideshow -->
+         <%--    <div class="carousel-inner">
+             
+                <c:if test="${not empty restaurant.mainImgNormal or not empty attachList }">
+                   <div class="carousel-item active">
+                    <img src="${restaurant.mainImgNormal}">
+                    <c:forEach items="${ attachList}" var="attach">
+                    	  <img src="/resources/upload/${attach.uploadpath}/${attach.uuid}_${attach.filename}" />
+                    </c:forEach>
+                      </div>
+                	<div class="carousel-item">
+             
+                    <img src="${restaurant.mainImgNormal}">
+               
+                	</div>
+                  </c:if>
+            
+            </div> --%>
+            
+                       <!-- The slideshow -->
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="${restaurant.mainImgNormal}">
+               
+                    <c:choose>
+                    	  <c:when test="${ restaurant.mainImgNormal eq null }">
+                    	  	
+                    	  </c:when>
+                    	  <c:otherwise>
+                    	  	
+                    	  	<img src="${restaurant.mainImgNormal}">
+                    	  </c:otherwise>
+                    </c:choose>
+                  <!-- 이부분이 해결돼야 리뷰에도 사진올리고 어쩌고저쩌고 -->
+                    <c:if test="${not empty attachList }">
+                        <c:forEach items="${ attachList}" var="attach">
+                    	  	<!-- The slideshow -->
+				            <div class="carousel-inner">
+				                <div class="carousel-item active">
+				                      <img src="/resources/upload/${attach.uploadpath}/${attach.uuid}_${attach.filename}" />
+				                </div>
+				            </div>
+                    	</c:forEach>
+                    </c:if>
+                    
                 </div>
-                <div class="carousel-item">
-                    <img src="${restaurant.mainImgNormal}">
-                </div>
+              
             </div>
 
             <!-- Left and right controls -->
@@ -101,77 +141,91 @@
         </div>
         
         
-   <!--      지도를 표시할 div 입니다 -->
-        <div class="details-side">
-           <!--  지도 위쪽 메뉴 -->
-            <div class="side-menu">
-                <div class="side-bottons">
-                </div>
-            </div>
-            <div id="map" style="width:20vw;height:25vw;"></div>
-        </div> 
+   		<!--      지도를 표시할 div 입니다 -->
+        <div id="map" style="width:100%;height:350px;"></div>
         
+        <!-- 비회원 -->
+        <sec:authorize access="isAnonymous()">
+        	<a href="/register">foodies 의 회원이 되시면 리뷰를 남길 수 있어요😎</a>
+            </sec:authorize>
+            
+         <!-- 회원 -->
+        <sec:authorize access="hasRole('ROLE_Member')">
+        	<a href="/member/review/${restaurant.id }"><button type="button" class="btn btn-warning" id="btn-submit">리뷰쓰기</button></a>
+        	</sec:authorize>
         
-        <a href="/member/review/${restaurant.id }"><button type="button" class="btn btn-warning" id="btn-submit">리뷰쓰기</button></a>
+         <!-- 관리자 -->
+         <sec:authorize access="hasRole('ROLE_Manager')">
+           <a href="/manager/restaurant/update/${restaurant.id}"><button type="submit" class="btn btn-warning" id="btn-submit">수정</button></a>
+           <a href="#"><button type="button" class="btn btn-warning" id="btn-delete">삭제</button></a>
+            </sec:authorize>
     </div>
-  <script type="text/javascript"
-        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9d918e400d0d27925a89d2d4d6ccd0db"></script> 
- 
-   <!--  <script>
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = { 
-        center: new kakao.maps.LatLng(${restaurant.lat}, ${restaurant.lng}), // 지도의 중심좌표
+    
+    
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=66159ace2b774061f4844aad5cb1be92&libraries=services"></script>
+
+<script>
+// 삭제 요청
+$("#btn-delete").on('click', function(){
+	//alert("dd");
+	if (!confirm("정말로 삭제하시겠습니까?")){
+		return false;
+	}
+	$.ajax({
+		method: "DELETE",
+		url: "/manager/restaurant/del/"+${restaurant.id}
+	})
+	.done(function(resp){
+		if(resp == "success"){
+			alert("삭제 되었습니다");
+			location.href="/";
+		}
+	})
+	.fail(function(){
+		alert("삭제 실패");
+	})
+})
+
+// 지도 api
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
         level: 3 // 지도의 확대 레벨
-    };
+    };  
 
-var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+// 지도를 생성합니다    
+var map = new kakao.maps.Map(mapContainer, mapOption); 
 
-// 마커가 표시될 위치입니다 
-var markerPosition  = new kakao.maps.LatLng(${restaurant.lat}, ${restaurant.lng}); 
+// 주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
 
-// 마커를 생성합니다
-var marker = new kakao.maps.Marker({
-    position: markerPosition
-});
+// 주소로 좌표를 검색합니다
+geocoder.addressSearch("${restaurant.addr1}", function(result, status) {
 
-// 마커가 지도 위에 표시되도록 설정합니다
-marker.setMap(map);
+    // 정상적으로 검색이 완료됐으면 
+     if (status === kakao.maps.services.Status.OK) {
 
-    </script> -->
-    <script>
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = { 
-        center: new kakao.maps.LatLng(${restaurant.lat}, ${restaurant.lng}), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };
+        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 
-var map = new kakao.maps.Map(mapContainer, mapOption);
+        // 결과값으로 받은 위치를 마커로 표시합니다
+        var marker = new kakao.maps.Marker({
+            map: map,
+            position: coords
+        });
 
-// 마커가 표시될 위치입니다 
-var markerPosition  = new kakao.maps.LatLng(${restaurant.lat}, ${restaurant.lng}); 
+        // 인포윈도우로 장소에 대한 설명을 표시합니다
+         var infowindow = new kakao.maps.InfoWindow({
+            content: '<div style="width:150px;text-align:center;padding:6px 0;"><a href="https://map.kakao.com/link/search/부산${restaurant.mainTitle }">${restaurant.mainTitle}</a></div>'
+        });
+        infowindow.open(map, marker);
+        
 
-// 마커를 생성합니다
-var marker = new kakao.maps.Marker({
-    position: markerPosition
-});
+        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        map.setCenter(coords);
+    } 
+});  
+</script>
 
-// 마커가 지도 위에 표시되도록 설정합니다
-marker.setMap(map);
-
-var iwContent = '<div style="padding:5px;">${restaurant.mainTitle} <br><a href="https://map.kakao.com/link/map/${restaurant.mainTitle},${restaurant.lat},${restaurant.lng}" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/${restaurant.mainTitle},${restaurant.lat},${restaurant.lng}" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-    iwPosition = new kakao.maps.LatLng(${restaurant.lat}, ${restaurant.lng}); //인포윈도우 표시 위치입니다
-
-// 인포윈도우를 생성합니다
-var infowindow = new kakao.maps.InfoWindow({
-    position : iwPosition, 
-    content : iwContent 
-});
-  
-// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-infowindow.open(map, marker);  
-
-
-    </script>
 </body>
 
 

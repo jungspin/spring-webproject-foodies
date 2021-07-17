@@ -1,11 +1,9 @@
 package com.example.foodies.controller;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +39,7 @@ import com.example.foodies.service.RestaurantService;
 // /manager/* : manager 권한이 있어야합니다
 // /그외 : 별도의 권한 없이 접근 가능합니다
 
+
 @Controller
 public class MemberController {
 
@@ -49,6 +48,7 @@ public class MemberController {
 	
 	@Autowired
 	private RestaurantService restaurantService;
+	
 	
 	// 로그인 폼
 	//@GetMapping("/login")
@@ -239,38 +239,6 @@ public class MemberController {
 		return "/board/review";
 	}
 	
-	// ================== 여기서부터 manager 권한이 있어야 접근이 가능합니다 ==========================
 	
-	// 관리자 페이지 가기
-	@GetMapping("/manager")
-	public String manager() {
-		return "/user/manager";
-	}
-	
-	// 식당 등록 페이지 가기
-	@GetMapping("/manager/submit")
-	public String restaurnt() {
-		return "/board/submitRes";
-	}
-	
-	// 식당 등록
-	@PostMapping("/manager/submit")
-	public String restaurnt(Restaurant restaurant, HttpServletRequest requset) throws IOException {
-		//String saveDir = requset.getSession().getServletContext().getRealPath("/");
-		//saveDir += "resource\\img\\";
-		
-		//System.out.println("saveDir = " + saveDir);
-		
-		//MultipartFile file = new 
-		
-		
-		return "/board/submitRes"; // 등록완료시 해당 식당 상세보기로 가야됨.
-	}
-	
-	// 식당 위치 등록 페이지 호출
-	@RequestMapping("/manager/juso")
-	public String juso() {
-		return "/user/jusoPopup";
-	}
 
 }

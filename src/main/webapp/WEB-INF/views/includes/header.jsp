@@ -50,7 +50,7 @@
             <div class="item"><a href="/register">회원가입</a></div>
             </sec:authorize>
               <sec:authorize access="hasRole('ROLE_Manager')">
-            <div class="item"><a href="/manager/submit">식당등록</a></div>
+            <div class="item"><a href="/manager/goSubmit">식당등록</a></div>
             <div class="item"><a href="/logout">로그아웃</a></div>
             </sec:authorize>
         </div>

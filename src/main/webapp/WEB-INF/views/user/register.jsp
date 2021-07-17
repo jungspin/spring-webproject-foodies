@@ -115,7 +115,9 @@
 			alert("이메일 인증을 해주세요");
 			return false;
 		} else {
-			alert("회원가입을 진행합니다");
+			if(!confirm("회원가입 하시겠습니까?")){
+				return false;
+			}
 			return true;
 		}
 

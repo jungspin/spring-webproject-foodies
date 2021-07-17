@@ -46,15 +46,14 @@ public class MemberService {
 		
 		// 권한 부여
 		// 관리자계정의 username에는 admin뭐시기 가 들어간다고 가정
-		if (!member.getUsername().contains("admin")) { 
+		if (member.getUsername().contains("admin")) { 
 			member.setRole(Role.ROLE_Manager);
+		} else {
+			member.setRole(Role.ROLE_Member);
+			
 		}
-		
-		member.setRole(Role.ROLE_Member);
-		
-		//System.out.println("new : " + member);
-		
 		memberRepository.save(member);
+	
 	}
 	
 	// 비밀번호 찾기?
