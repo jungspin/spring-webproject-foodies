@@ -1,9 +1,18 @@
 package com.example.foodies.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +31,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.foodies.config.auth.PrincipalDetails;
 import com.example.foodies.handler.CunstomValidationException;
+import com.example.foodies.model.RestAttach;
 import com.example.foodies.model.Restaurant;
+import com.example.foodies.model.ReviewBoard;
 import com.example.foodies.model.member.AuthMailDTO;
 import com.example.foodies.model.member.Member;
 import com.example.foodies.model.member.RegisterDTO;
+import com.example.foodies.service.BoardService;
 import com.example.foodies.service.MemberService;
 import com.example.foodies.service.RestaurantService;
+
+import lombok.extern.java.Log;
+
 
 
 // 주소설계
@@ -39,7 +57,7 @@ import com.example.foodies.service.RestaurantService;
 // /manager/* : manager 권한이 있어야합니다
 // /그외 : 별도의 권한 없이 접근 가능합니다
 
-
+@Log
 @Controller
 public class MemberController {
 
@@ -48,6 +66,12 @@ public class MemberController {
 	
 	@Autowired
 	private RestaurantService restaurantService;
+	
+	@Autowired
+	private MultipartModule multipartModule;
+	
+	@Autowired
+	private BoardService boardService;
 	
 	
 	// 로그인 폼
@@ -237,6 +261,25 @@ public class MemberController {
 		model.addAttribute("restaurant", restaurant);
 		model.addAttribute("principal", principal);
 		return "/board/review";
+	}
+	
+
+	
+	// 리뷰쓰기
+	@PostMapping("/member/review")
+	public String review(ReviewBoard reviewBoard, HttpServletRequest request,
+			@RequestParam("files") List<MultipartFile> files, RedirectAttributes redirect) throws IllegalStateException, IOException {
+		log.info("reviewBoard : " + reviewBoard);
+		
+		List<RestAttach> attachList =  multipartModule.imgUpload(request, files);
+		
+		boardService.insertReviewAndImg(reviewBoard, attachList);
+		
+		redirect.addAttribute("review", reviewBoard);
+		redirect.addAttribute("attachList", attachList);
+		
+		return "redirect:/detail/"+reviewBoard.getRestaurant().getId();
+		
 	}
 	
 	

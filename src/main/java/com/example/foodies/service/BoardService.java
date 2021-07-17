@@ -9,11 +9,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.example.foodies.model.RestAttach;
 import com.example.foodies.model.Restaurant;
+import com.example.foodies.model.ReviewBoard;
 import com.example.foodies.model.freeboard.FreeBoard;
 import com.example.foodies.model.member.Member;
 import com.example.foodies.repository.BoardRepository;
 import com.example.foodies.repository.FreeBoardRepository;
+import com.example.foodies.repository.RestAttachRepository;
+import com.example.foodies.repository.ReviewRepository;
 
 @Service
 public class BoardService {
@@ -22,6 +26,12 @@ public class BoardService {
 	private BoardRepository boardRepository;
 	@Autowired
 	private FreeBoardRepository freeBoardRepository;
+	
+	@Autowired
+	private ReviewRepository reviewRepository;
+	
+	@Autowired
+	private RestAttachRepository restAttachRepository;
 
 	public Restaurant list(Long id) {
 		Restaurant restaurant = boardRepository.findById(id).get();
@@ -36,10 +46,7 @@ public class BoardService {
 		return freeBoardRepository.findAll();
 	}
 
-
-
 	//자유게시판상세보기 
-
 	@Transactional
 	public FreeBoard findById(Long id) {
 		FreeBoard freeBoard = freeBoardRepository.findById(id).get();
@@ -78,18 +85,20 @@ public class BoardService {
 		b.setContent(freeBoard.getContent());
 		b.setTitle(freeBoard.getTitle());
 	}
+	
 	//자유게시판 수정폼
 	@Transactional
 	public FreeBoard view(Long id) {
 	 FreeBoard freeboard =	freeBoardRepository.findById(id).get();
 	 return freeboard;
 	}
-	//자유게시판 삭제
 	
+	//자유게시판 삭제
 	@Transactional
 	public void delete(Long id) {
 		freeBoardRepository.deleteById(id);
 	}
+	
 	//검색하기
 	@Transactional 
 	public List<Restaurant> findRestaurantsByKeyword(String keyword) {
@@ -97,6 +106,20 @@ public class BoardService {
 		return boardRepository.findRestaurantsByKeyword(keyword);
 	}
 	
+	//==========================================================
+	
+	// 리뷰 작성
+	@Transactional
+	public void insertReviewAndImg(ReviewBoard reviewBoard, List<RestAttach> restAttachs) {
+		ReviewBoard review = reviewRepository.save(reviewBoard);
+		
+		if (restAttachs.size() > 0) {
+			for(RestAttach restAttach : restAttachs) {
+				restAttach.setReviewBoard(review);
+				restAttachRepository.save(restAttach);
+			}
+		}
+	}
 	
 
 }

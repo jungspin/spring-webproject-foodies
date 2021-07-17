@@ -81,6 +81,10 @@
 					<td>
 						<!-- 그냥 못 넘어가게 해야돼 -->
 						<button type="submit" class="btn btn-primary" id="btn-submit">회원가입</button>
+							  	<br/><br/>
+						  <a href="/login" >이미 foodies 의 회원이신가요? 🤔</a>
+					
+						
 					</td>
 				</tr>
 

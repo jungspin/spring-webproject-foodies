@@ -49,35 +49,36 @@ article {
 <h2 class="text-warning">${restaurant.mainTitle} 에 대한 ${principal.member.username } 님의 생각을 공유해주세요🤗</h2>
 
 <div class="form-group">
+<form action="/member/review" method="post" enctype="multipart/form-data">
 
   <div class="star-rating">
-  <input type="radio" id="5-stars" name="rating" value="5" />
+  <input type="radio" id="5-stars" name="grade" value="5" />
   <label for="5-stars" class="star">&#9733;</label>
-  <input type="radio" id="4-stars" name="rating" value="4" />
+  <input type="radio" id="4-stars" name="grade" value="4" />
   <label for="4-stars" class="star">&#9733;</label>
-  <input type="radio" id="3-stars" name="rating" value="3" />
+  <input type="radio" id="3-stars" name="grade" value="3" />
   <label for="3-stars" class="star">&#9733;</label>
-  <input type="radio" id="2-stars" name="rating" value="2" />
+  <input type="radio" id="2-stars" name="grade" value="2" />
   <label for="2-stars" class="star">&#9733;</label>
-  <input type="radio" id="1-star" name="rating" value="1" />
+  <input type="radio" id="1-star" name="grade" value="1" />
   <label for="1-star" class="star">&#9733;</label>
 </div>
 
 
-  
-	<!-- <input type="hidden" class="form-control" id="username" value="" name="username" readonly="readonly" /> -->
-  <textarea class="form-control" rows="10" id="resContents"></textarea>
+  	<input type="hidden" class="form-control" name="member" value="${principal.member.id }" readonly="readonly" />
+	<input type="hidden" class="form-control" name="restaurant" value="${restaurant.id }" readonly="readonly" />
+  <textarea class="form-control" rows="10" name="content" id="resContents"></textarea>
   
   	 <div class="custom-file">
-	    <input type="file" class="custom-file-input" id="resImage">
+	    <input type="file" class="custom-file-input" name="files" id="files" multiple="multiple">
 	    <label class="custom-file-label" for="customFile">클릭하면 사진첨부 가능</label> 
 	  </div>
    
 
   
    <button type="submit" class="btn btn-primary" id="btn-sumbit">리뷰등록</button>
-  <button type="submit" class="btn btn-primary" id="btn-cancel">취소</button>
-
+  <button type="button" class="btn btn-primary" id="btn-cancel">취소</button>
+</form>
 </div>
 
 </div>

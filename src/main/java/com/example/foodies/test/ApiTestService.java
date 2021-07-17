@@ -1,4 +1,4 @@
-package com.example.foodies.service;
+package com.example.foodies.test;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.foodies.model.Restaurant;
-import com.example.foodies.repository.ApiTestRepository;
 
 
 @Service

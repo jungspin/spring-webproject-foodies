@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.foodies.model.RestAttach;
 import com.example.foodies.model.Restaurant;
 import com.example.foodies.service.RestaurantService;
+import com.sun.mail.handlers.multipart_mixed;
 
 import lombok.extern.java.Log;
 
@@ -37,6 +38,9 @@ public class ManagerController {
 
 	@Autowired
 	private RestaurantService restaurantService;
+	
+	@Autowired
+	private MultipartModule multipartModule;
 
 	// ================== 여기서부터 manager 권한이 있어야 접근이 가능합니다 ==========================
 
@@ -64,6 +68,7 @@ public class ManagerController {
 	public String restaurnt(Restaurant restaurant, HttpServletRequest request,
 			@RequestParam("files") List<MultipartFile> files, RedirectAttributes redirect) throws IOException {
 
+		/*
 		// ================= 파일 업로드 작업 시작 ==================
 		log.info("files : " + files);
 		// log.info("restaurant : " + restaurant );
@@ -101,8 +106,11 @@ public class ManagerController {
 			// 실제 파일 1개 업로드 수행 완료
 			multipartFile.transferTo(new File(uploadPath, uploadFileName)); // 귀찮은 일은 스프링이 해주니까 예외 던져버림
 
-			RestAttach restAttach = new RestAttach().builder().uuid(uuid.toString()).filename(originalFileName)
-					.uploadpath(getDateFolder()).build();
+			RestAttach restAttach = new RestAttach().builder()
+					.uuid(uuid.toString())
+					.filename(originalFileName)
+					.uploadpath(getDateFolder())
+					.build();
 
 			attachList.add(restAttach);
 			// restaurantService.insert(restAttach);
@@ -110,6 +118,8 @@ public class ManagerController {
 		} // forEach
 
 		// ================= 파일 업로드 작업 끝 ==================
+		*/
+		List<RestAttach> attachList = multipartModule.imgUpload(request, files);
 
 		restaurantService.insertRestAndImg(restaurant, attachList);
 
@@ -136,12 +146,14 @@ public class ManagerController {
 	@GetMapping("/restaurant/update/{id}")
 	public String update(@PathVariable Long id, Model model) {
 		Restaurant restaurant = restaurantService.findById(id);
+		List<RestAttach> attachLists = restaurantService.findByRestaurant(restaurant);
 		model.addAttribute("restaurant", restaurant);
+		model.addAttribute("attachLists", attachLists);
 		return "/board/resUpdate";
 
 	}
 
-	// 식당 수정
+	// 식당 수정 => 미완..
 	@PostMapping("/restaurant/update")
 	public String update(Restaurant restaurant, HttpServletRequest request,
 			@RequestParam("files") List<MultipartFile> files, RedirectAttributes redirect) throws IllegalStateException, IOException {
@@ -149,7 +161,7 @@ public class ManagerController {
 		log.info("들어온 데이터 : " + restaurant);
 		
 		
-		Restaurant updateRest = restaurantService.updateRest(restaurant);
+		//Restaurant updateRest = restaurantService.updateRest(restaurant);
 		
 		log.info("식당 수정 컨트롤러 탔음");
 		
@@ -171,7 +183,8 @@ public class ManagerController {
 			uploadPath.mkdirs();
 		}
 
-		List<RestAttach> attachList = restaurantService.findByRestaurant(updateRest);
+		//List<RestAttach> attachList = restaurantService.findByRestaurant(updateRest); // 기존의 데이터 나옴
+		List<RestAttach> attachList = new ArrayList<RestAttach>();
 		
 		log.info("진행중1");
 
@@ -191,23 +204,25 @@ public class ManagerController {
 									.uuid(uuid.toString())
 									.filename(originalFileName)
 									.uploadpath(getDateFolder())
-									.restaurant(updateRest)
+									.restaurant(restaurant)
 									.build();
 
 			attachList.add(restAttach);
+			
 			// restaurantService.insert(restAttach);
 
 		} // forEach
+		log.info("컨트롤러 attachList : " + attachList);
 
 		// ================= 파일 업로드 작업 끝 ==================
 		
 		log.info("진행중2");
 		
 		
-		List<RestAttach> updateList = restaurantService.updateImg(attachList);
+		restaurantService.updateRestAndImg(restaurant, attachList);
 		
-		redirect.addAttribute("restaurant", updateRest);
-		redirect.addAttribute("attachList", updateList);
+		//redirect.addAttribute("restaurant", updateRest);
+		//redirect.addAttribute("attachList", updateList);
 		
 		log.info("식당 수정 컨트롤러 끝");
 

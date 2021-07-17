@@ -68,7 +68,7 @@
 					<td>
 						<label>사진등록</label>
 						    <div class="form-group" id="fileContainer">
-						      <input type="file" accept="image/gif, image/jpeg, image/png" onchange="fileCheck(this)" value="" class="form-control-file border" name="files" id="files" multiple />
+						      <input type="file" accept="image/gif, image/jpeg, image/png" onchange="fileCheck(this)" class="form-control-file border" name="files" id="files" multiple />
 						    </div>
 					</td>
 				</tr>

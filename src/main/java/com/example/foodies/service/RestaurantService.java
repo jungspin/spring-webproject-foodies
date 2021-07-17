@@ -1,5 +1,6 @@
 package com.example.foodies.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -71,9 +72,10 @@ public class RestaurantService {
 	
 	// 식당 등록과 파일 수정을 같이 하기
 	@Transactional
-	public Restaurant updateRest(Restaurant restaurant) {
+	public void updateRestAndImg(Restaurant restaurant, List<RestAttach> restAttachs) {
 		
 		log.info("식당 수정 서비스 탔음");
+		log.info("서비스 restAttachs : " + restAttachs);
 		
 		Restaurant rest = boardRepository.findById(restaurant.getId()).get();
 		rest.setAddr1(restaurant.getAddr1());
@@ -83,26 +85,63 @@ public class RestaurantService {
 		rest.setRprsntvMenu(restaurant.getRprsntvMenu());
 		rest.setUsageDayWeekAndTime(restaurant.getUsageDayWeekAndTime());
 		
-		return rest;
+		List<RestAttach> originalLists = restAttachRepository.findByRestaurant(rest);
+		log.info("식당 수정 서비스 1");
+		log.info("originalLists : " + originalLists);
+		
+		if (restAttachs.size() > 0) {
+			for (RestAttach restAttach : restAttachs) { // 왜 네번들어가지? -> 전의데이터를 다 가져와서
+				
+				
+				RestAttach attach = restAttachRepository.findById(restAttach.getId()).get();
+				log.info("attach : " + attach);
+				attach.setUuid(restAttach.getUuid());
+				attach.setUploadpath(restAttach.getUploadpath());
+				attach.setFilename(restAttach.getFilename());
+				attach.setRestaurant(restAttach.getRestaurant());
+				
+				originalLists.add(attach);
+				
+			}
+			log.info("originalLists2 : " + originalLists);
+			log.info("식당 수정 서비스 끝");
+		}
 		
 	}
 	
+	/*
 	@Transactional
 	public List<RestAttach> updateImg(List<RestAttach> restAttachs) {
 		
 		log.info("식당 사진 수정 서비스 탔음");
 		
+		
+		
 		if (restAttachs.size() > 0) {
-			for (RestAttach restAttach : restAttachs) {
-				log.info("식당 수정 파일 서비스 탔음");
+			for (RestAttach restAttach : restAttachs) { // 왜 네번들어가지? -> 전의데이터를 다 가져와서
+				log.info("restAttach : " + restAttach);
+				
+				
+				
+				
 				RestAttach attach = restAttachRepository.findById(restAttach.getId()).get();
 				attach.setUuid(restAttach.getUuid());
 				attach.setUploadpath(restAttach.getUploadpath());
 				attach.setFilename(restAttach.getFilename());
 				attach.setRestaurant(restAttach.getRestaurant());
 				
+				log.info("attach : " + attach);
 				restAttachs.add(attach);
 						
+			}
+			
+			Iterator<RestAttach> iter = restAttachs.iterator();
+			while (iter.hasNext()) {
+				RestAttach attach = restAttachRepository.findById(restAttach.getId()).get();
+				attach.setUuid(restAttach.getUuid());
+				attach.setUploadpath(restAttach.getUploadpath());
+				attach.setFilename(restAttach.getFilename());
+				attach.setRestaurant(restAttach.getRestaurant());
 			}
 			
 		}
@@ -111,4 +150,5 @@ public class RestaurantService {
 		
 		
 	}
+	*/
 }

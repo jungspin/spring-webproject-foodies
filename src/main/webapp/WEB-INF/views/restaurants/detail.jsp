@@ -50,7 +50,7 @@
 
     <div class="container detail-title">
         <div class="name" id="main_title">${restaurant.mainTitle}</div>
-        <div class="stars">&nbsp;4.7</div>
+        <div class="stars">&nbsp;${ review.grade}</div>
     </div>
     <div class="container detail-subtitle">${restaurant.itemcntnts}</div>
     <div class="container detail-status">
@@ -83,9 +83,9 @@
                     <img src="${restaurant.mainImgNormal}">
                
                 	</div>
-                  </c:if>
+                  </c:if> --%>
             
-            </div> --%>
+            </div> 
             
                        <!-- The slideshow -->
             <div class="carousel-inner">
@@ -124,7 +124,7 @@
                 <span class="carousel-control-next-icon"></span>
             </a>
         </div>
-    </div>
+    
 
     <div class="container details-main">
         <div class="details-explain">
@@ -159,7 +159,28 @@
            <a href="/manager/restaurant/update/${restaurant.id}"><button type="submit" class="btn btn-warning" id="btn-submit">수정</button></a>
            <a href="#"><button type="button" class="btn btn-warning" id="btn-delete">삭제</button></a>
             </sec:authorize>
-    </div>
+   
+    
+   
+</div>
+           <!-- 리뷰가 나타날 곳 -->
+    <!-- 댓글 view단 -->
+	<div class="container">
+		<div class="card-header">
+			<b>foodies의 후기</b>
+		</div>
+		<ul id="reply-box" class="list-group">
+			<li id="reply-1" class="list-group-item d-flex justify-content-between">
+				<div>${restaurant.reviewBoard.content }</div>
+				<div class="d-flex">
+					<div class="font-italic">작성자 : ${restaurant.reviewBoard.member.username } &nbsp;</div>
+					<button class="badge">삭제</button>
+				</div>
+			</li>
+		</ul>
+	</div>
+ 
+   
     
     
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=66159ace2b774061f4844aad5cb1be92&libraries=services"></script>

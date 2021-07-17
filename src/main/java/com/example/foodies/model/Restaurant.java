@@ -44,7 +44,7 @@ public class Restaurant {
 	@Column(length = 500)
 	private String usageDayWeekAndTime; // 영업시간
 	
-	@OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("restaurant") // 무한참조 방지
 	private List<ReviewBoard> reviewBoards;
 	

@@ -1,4 +1,4 @@
-package com.example.foodies.repository;
+package com.example.foodies.test;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

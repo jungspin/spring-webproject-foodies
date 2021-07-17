@@ -52,7 +52,8 @@
     <div class="form-group">
       <input type="password" class="input" id="password" placeholder="비밀번호를 입력해주세요" name="password">
     </div>
-
+    <a href="/register" >아직 foodies의 회원이 아니신가요?🤔</a>
+	<br/>
     <button type="submit" class="button">로그인</button>
   </form> 
 </div>
