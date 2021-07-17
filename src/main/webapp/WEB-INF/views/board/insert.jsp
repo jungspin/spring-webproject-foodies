@@ -11,7 +11,7 @@
 
 		</div>
 		<div class="form-group">
-			<label for="writer">글쓴이:</label> 
+			<label for="writer">사진업로드:</label> 
 			<input type="text" class="form-control" id="username" 
 			placeholder="Enter writer" name="username" value="${principal.member.username}"  >
 		</div>
