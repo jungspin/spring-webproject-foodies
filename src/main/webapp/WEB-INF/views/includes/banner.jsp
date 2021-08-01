@@ -58,9 +58,7 @@
                         <!-- 캡션 설정 (생략 가능) -->
                         <!-- 글자 색은 검은색 -->
                         
-                        <div class="carousel-caption" style="color: black">
-                          먹자 먹자 먹자
-                        </div>
+                       
                       </div>
                       <div class="item">
                       
@@ -69,7 +67,7 @@
                           src="/banner/rabbit1.jpg"
                           style="width: 100%;height: 700px;"
                         /></a>
-                        <div class="carousel-caption" style="color: black">선생님 먹방</div>
+                   
                       </div>
                     </div>
                     <!-- 왼쪽 화살표 버튼 -->

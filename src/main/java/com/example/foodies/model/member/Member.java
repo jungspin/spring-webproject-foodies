@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,6 +34,7 @@ public class Member {
 	@Column(nullable = false)
 	private String username;
 
+	@JsonIgnore
 	@Column(nullable = false)
 	private String password;
 

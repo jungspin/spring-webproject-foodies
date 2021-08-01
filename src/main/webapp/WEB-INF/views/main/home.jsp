@@ -3,8 +3,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<jsp:include page="../includes/header.jsp"></jsp:include>
-<%-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -25,57 +24,76 @@
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/home.css">
+	href="/css/home.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
 </head>
+<style>
+.board-start {
+	background-image: url("/img/store.jpg");
+	height: 70vh;
+	position: relative;
+	margin-bottom: -60px;
+}
+.board-start::before {
+	position: absolute;
+	height: 70vh;
+	width: 100%;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	opacity: 0.8;
+	background-color: white;
+}
+
+
+</style>
 <body>
 
 	<!-- 네비메뉴 -->
 	<nav class="main-navi nav-down">
 		<div class="logo">
-			<a href="/"> <i class="fas fa-hamburger"></i> &nbsp; FOODIES
+			<a href="/"> <i class="fas fa-hamburger"></i>FOODIES
 			</a>
 
 		</div>
-		<form class="">
-			<div class="search">
-				<input type="text" class="search-input" placeholder="지역 및 식당, 음식">
-				<button class="search-button">
-					<i class="fas fa-search"></i>
-				</button>
-			</div>
-		</form>
+	   <form action="search" method="get">
+            <div class="search">
+                <input type="text" name="keyword" class="search-input" placeholder="지역 및 식당, 음식">
+                <button class="search-button" name="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
 
 		<div class="menu" id="host">
 			<div class="item">
-				<a href="list">게시판</a>
+				<a class="a"href="list">게시판</a>
 			</div>
-			<sec:authorize access="isAuthenticated()"></sec:authorize>
+			<%-- <sec:authorize access="isAuthenticated()"></sec:authorize> --%>
 			<sec:authorize access="hasRole('ROLE_Member')">
 				<div class="item">
-					<a
+					<a class="a"
 						href="/member/mypage/<sec:authentication property="principal.member.id"/>">마이페이지</a>
 				</div>
 				<div class="item">
-					<a href="/logout">로그아웃</a>
+					<a class="a"href="/logout">로그아웃</a>
 				</div>
 			</sec:authorize>
 
 			<sec:authorize access="isAnonymous()">
 				<div class="item">
-					<a href="/login">로그인</a>
+					<a class="a"href="/login">로그인</a>
 				</div>
 				<div class="item">
-					<a href="/register">회원가입</a>
+					<a class="a"href="/register">회원가입</a>
 				</div>
 			</sec:authorize>
 			<sec:authorize access="hasRole('ROLE_Manager')">
 				<div class="item">
-					<a href="/manager/submit">식당등록</a>
+					<a class="a"href="/manager/goSubmit">식당등록</a>
 				</div>
 				<div class="item">
-					<a href="/logout">로그아웃</a>
+					<a class="a"href="/logout">로그아웃</a>
 				</div>
 			</sec:authorize>
 		</div>
@@ -84,7 +102,7 @@
 
 	<div class="main-navi2">
 		<div class="logo">
-			<a href="/"> <i class="fas fa-hamburger"></i> &nbsp;FOODIES
+			<a href="/"> <i class="fas fa-hamburger">FOODIES</i>
 			</a>
 
 
@@ -102,7 +120,7 @@
 			<div class="item">
 				<a href="list">게시판</a>
 			</div>
-			<sec:authorize access="isAuthenticated()"></sec:authorize>
+			<%-- <sec:authorize access="isAuthenticated()"></sec:authorize> --%>
 			<sec:authorize access="hasRole('ROLE_Member')">
 				<div class="item">
 					<a
@@ -129,86 +147,92 @@
 					<a href="/logout">로그아웃</a>
 				</div>
 			</sec:authorize>
-		</div> --%>
-	</div>
-	<div class="banner nav-down" id="banner">
-		<div style="width: 150px; height: 500px;">
-			<!-- carousel를 사용하기 위해서는 class에 carousel와 slide 설정한다. -->
-			<!-- carousel는 특이하게 id를 설정해야 한다.-->
-			<div id="carousel-example-generic" class="carousel slide">
-				<!-- carousel의 지시자 -->
-				<!-- 지시자라고는 하는데 ol태그의 class에 carousel-indicators를 넣는다. -->
-				<ol class="carousel-indicators">
-					<!-- li는 이미지 개수만큼 추가하고 data-target은 carousel id를 가르킨다. -->
-					<!-- data-slide-to는 순서대로 0부터 올라가고 0은 active를 설정한다. -->
-					<!-- 딱히 이 부분은 옵션별로 설정하게 없다. -->
-					<li data-target="#carousel-example-generic" data-slide-to="0"
-						class="active"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-				</ol>
-				<!-- 실제 이미지 아이템 -->
-				<!-- class는 carousel-inner로 설정하고 role은 listbox에서 설정한다. -->
-				<div class="carousel-inner" role="listbox">
-					<!-- 이미지의 개수만큼 item을 만든다. 중요한 포인트는 carousel-indicators의 li 태그 개수와 item의 개수는 일치해야 한다. -->
-					<div class="item active">
-						<!-- 아미지 설정- -->
-						<a
-							href="https://www.tokkijung.co.kr/sns/company/brand_tokki_menu.php#sec1">
-							<img src="/banner/rabbit2.jpg"
-							style="width: 100%; height: 700px;" />
-						</a>
-						<!-- 캡션 설정 (생략 가능) -->
-						<!-- 글자 색은 검은색 -->
-
-						<div class="carousel-caption" style="color: black">먹자 먹자 먹자
-						</div>
-					</div>
-					<div class="item">
-
-						<a
-							href="https://www.tokkijung.co.kr/sns/company/brand_tokki_menu.php#sec1">
-							<img src="/banner/rabbit1.jpg"
-							style="width: 100%; height: 700px;" />
-						</a>
-						<div class="carousel-caption" style="color: black">선생님 먹방</div>
-					</div>
-				</div>
-				<!-- 왼쪽 화살표 버튼 -->
-				<!-- href는 carousel의 id를 가르킨다. -->
-				<a class="left carousel-control" href="#carousel-example-generic"
-					role="button" data-slide="prev"> <!-- 왼쪽 화살표 --> <span
-					class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-				</a>
-				<!-- 오른쪽 화살표 버튼 -->
-				<!-- href는 carousel의 id를 가르킨다. -->
-				<a class="right carousel-control" href="#carousel-example-generic"
-					role="button" data-slide="next"> <!-- 오른쪽 화살표 --> <span
-					class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				</a>
-			</div>
 		</div>
 	</div>
 	<div class="container-fluid main-start">
 		<div class="explain">
-			<h2>FOODIES</h2>
+			<h2>FOODIES!</h2>
 			<br>
 			<h4>먹는 즐거움의 시작!</h4>
 		</div>
 	</div>
+<!-- 		<img  id="homeimg1" src="/img/store2.jpg"> -->	
+	<div class="container icons-start">
+	<br>
+	<hr>
+<h2><i class="fas fa-hamburger"></i>&nbsp;어떤걸 드시고 싶으세요?</h2>
+<hr>
+</div>
+
+	<div class="container icons-list1">
+	<a style="text-decoration: none;" href= "http://localhost:8877/search?keyword=%EC%B9%98%ED%82%A8&searchBtn=">
+		<div class="items" style="background-color: rgb(255, 207, 145)">
+		
+			<img src="/img/chicken-leg.png">
+			<div class="items-detail">치킨</div>
+		</div></a>
+		<a style="text-decoration: none;" href= "http://localhost:8877/search?keyword=%ED%94%BC%EC%9E%90&searchBtn=">
+		<div class="items" style="background-color: rgb(255, 167, 59)">
+			<img src="/img/pizza.png">
+			<div class="items-detail">피자</div>
+		</div>
+		</a>
+		<a style="text-decoration: none;" href= "http://localhost:8877/search?keyword=%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91&searchBtn=">
+		<div class="items" style="background-color: rgb(252, 195, 88)">
+			<img src="/img/spaghetti.png">
+			<div class="items-detail">양식</div>
+		</div>
+		</a>
+		<a style="text-decoration: none;" href= "http://localhost:8877/search?keyword=%EC%A4%91%EA%B5%AD&searchBtn=">
+		<div class="items" style="background-color: rgb(255, 66, 92)">
+			<img src="/img/ramen.png">
+			<div class="items-detail">중식</div>
+		</div>
+		</a>
+		<a style="text-decoration: none;" href= "http://localhost:8877/search?keyword=%ED%95%9C%EC%8B%9D&searchBtn=">
+		<div class="items" style="background-color: rgb(82, 200, 255)">
+			<img src="/img/rice.png">
+			<div class="items-detail">한식</div>
+		</div>
+		</a>
+		<a style="text-decoration: none;" href= "http://localhost:8877/search?keyword=%EB%96%A1%EB%B3%B6%EC%9D%B4&searchBtn=">
+		<div class="items" style="background-color: rgb(255, 62, 48)">
+			<img src="/img/tteokbokki.png">
+			<div class="items-detail">분식</div>
+		</div>
+		</a>
+		<a style="text-decoration: none;" href= "http://localhost:8877/search?keyword=%EC%9D%BC%EC%8B%9D&searchBtn=">
+		<div class="items" style="background-color: rgb(156, 222, 255)">
+			<img src="/img/sushi.png">
+			<div class="items-detail">일식</div>
+		</div>
+		</a>
+		<a style="text-decoration: none;" href= "http://localhost:8877/search?keyword=%EC%BB%A4%ED%94%BC&searchBtn=">
+		<div class="items" style="background-color: rgb(252, 187, 144)">
+			<img src="/img/dessert.png">
+			<div class="items-detail">카페</div>
+		</div>
+		</a>
+
+	</div>
 	<div class="container slide-start">
-		<h2>추천음식점</h2>
+	<hr>
+		<h2><i class="fas fa-hamburger"></i> &nbsp;추천음식점</h2>
+		<hr>
 	</div>
 
 	<section class="vertical slider container">
-
+		
 		<c:forEach items="${lists}" var="restaurant" varStatus="st">
 			<div>
 				<a href="/detail/${restaurant.id}">
 					<figure class="snip1384">
 						<img src="${restaurant.mainImgNormal}" />
+						<h2>${restaurant.mainTitle}</h2>
 						<figcaption>
 							<h3>${restaurant.mainTitle}</h3>
-							<%-- <p>${restaurant.itemcntnts }</p> --%>
+							<br>
+							<p>${restaurant.itemcntnts }</p>
 						</figcaption>
 					</figure>
 				</a>
@@ -216,35 +240,49 @@
 		</c:forEach>
 
 	</section>
+	
+<div class="container icons-start">
+<hr>
+<h2><i class="fas fa-hamburger"></i> &nbsp;지역별음식점</h2>
+<hr>
+</div>
+	<div >
 
-
-	<div class="container-fluid">
-		<div class="explain">
-			<h2>FOODIES</h2>
-			<br>
-			<h4>
-				먹는 즐거움의 시작!
-				</h3>
-		</div>
+	<div class="container icons-list">
+	
+		<a href="http://localhost:8877/search?keyword=%EA%B0%95%EC%84%9C%EA%B5%AC&searchBtn="><img style="border: solid grey 1px;"src="/img/강서구.jpg" class="img"></a>
+		<a href="http://localhost:8877/search?keyword=%EA%B8%88%EC%A0%95%EA%B5%AC&searchBtn="><img style="border: solid grey 1px;"alt="" src="/img/금정구.jpg" class="img"></a>
+		<a href="http://localhost:8877/search?keyword=%EB%8F%99%EB%9E%98%EA%B5%AC&searchBtn="><img style="border: solid grey 1px;"alt="" src="/img/동래구.jpg" class="img"></a>
+		<a href="http://localhost:8877/search?keyword=%EC%A7%84%EA%B5%AC&searchBtn="><img style="border: solid grey 1px;"alt="" src="/img/부산진구.jpg" class="img"></a>
+		<a href="http://localhost:8877/search?keyword=%EC%82%AC%EC%83%81%EA%B5%AC&searchBtn="><img style="border: solid grey 1px;"alt="" src="/img/사상구.jpg" class="img"></a>
+		<a href="http://localhost:8877/search?keyword=%EC%88%98%EC%98%81%EA%B5%AC&searchBtn="><img style="border: solid grey 1px;"alt="" src="/img/수영구.jpg" class="img"></a>
+		<a href="http://localhost:8877/search?keyword=%EC%97%B0%EC%A0%9C%EA%B5%AC&searchBtn="><img style="border: solid grey 1px;"alt="" src="/img/연제구.jpg" class="img"></a>
+		<a href="http://localhost:8877/search?keyword=%ED%95%B4%EC%9A%B4%EB%8C%80&searchBtn="><img style="border: solid grey 1px;"alt="" src="/img/해운대구.jpg" class="img"></a>
 	</div>
-	<div class="container-fluid">
-		<div class="explain">
-			<h2>FOODIES</h2>
-			<br>
-			<h4>
-				먹는 즐거움의 시작!
-				</h3>
-		</div>
 	</div>
-	<div class="container-fluid">
-		<div class="explain">
-			<h2>FOODIES</h2>
-			<br>
-			<h4>
-				먹는 즐거움의 시작!
-				</h3>
-		</div>
+<div class="container-fluid board-start">
+	<h1>안녕</h1>
 	</div>
+	
+	
+<!-- 	<div class="container-fluid"> -->
+<!-- 		<div class="explain"> -->
+<!-- 			<h2>FOODIES</h2> -->
+<!-- 			<br> -->
+<!-- 			<h4> -->
+<!-- 				먹는 즐거움의 시작! -->
+<!-- 				</h3> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
+<!-- 	<div class="container-fluid"> -->
+<!-- 		<div class="explain"> -->
+<!-- 			<h2>FOODIES</h2> -->
+<!-- 			<br> -->
+<!-- 			<h4> -->
+<!-- 				먹는 즐거움의 시작! -->
+<!-- 				</h3> -->
+<!-- 		</div> -->
+<!-- 	</div> -->
 
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script
@@ -276,7 +314,7 @@
 		$(document).on('ready', function() {
 
 			$(".vertical").slick({
-				dots : true,
+				dots : false,
 				vertical : false,
 				fade : false,
 				slidesToShow : 3,
@@ -303,17 +341,9 @@
 		$(".hover").mouseleave(function() {
 			$(this).removeClass("hover");
 		});
+		
 	</script>
 
-
-
-</head>
-<jsp:include page="../includes/header.jsp"></jsp:include>
-<jsp:include page="../includes/banner.jsp"></jsp:include>
-
-<jsp:include page="./recommend-photo.jsp"></jsp:include>
-
-    
-
+<%@ include file="../includes/footer.jsp"%>
 </body>
 </html>

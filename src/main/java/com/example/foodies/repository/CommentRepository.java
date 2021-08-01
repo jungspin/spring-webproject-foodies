@@ -18,5 +18,9 @@ public interface CommentRepository extends JpaRepository<FreeComment, Long> {
 
 	@Query(value = "select c from freecomment c where freeboard_id=?1", nativeQuery = true)
 	public List<FreeComment> findFreecommentById(Long id);
+	
+	@Modifying
+	@Query(value = "DELETE FROM freecomment WHERE member_id = ?1", nativeQuery = true )
+	public void deleteByMemberId(Long memId);
 
 }

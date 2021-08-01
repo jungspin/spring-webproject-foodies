@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="../includes/header.jsp"></jsp:include>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,40 +23,106 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <title>상세보기</title>
 </head>
+<jsp:include page="../includes/header.jsp"></jsp:include>
+<style >
+.star-rating {
+  display:flex;
+  flex-direction: row-reverse;
+  font-size:1.5em;
+  justify-content:space-around;
+  padding:0 .2em;
+  text-align:center;
+  width:5em;
+}
 
+.star-rating input {
+  display:none;
+}
+
+.star-rating label {
+  color:#ccc;
+  cursor:pointer;
+}
+
+.star-rating :checked ~ label {
+  color:#f90;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color:#fc0;
+}
+
+button {
+	background: none;
+}
+
+/* explanation */
+
+article {
+  background-color:#ffe;
+  box-shadow:0 0 1em 1px rgba(0,0,0,.25);
+  color:#006;
+  font-family:cursive;
+  font-style:italic;
+  margin:4em;
+  max-width:30em;
+  padding:2em;
+}
+</style>
 <body>
-    <!-- 네비게이션 -->
-   <!--  <nav class="main-navi nav-down">
-        <div class="logo">
-            <a href="/">
-                <i class="fas fa-hamburger"></i>FOODIES
-            </a>
-        </div>
-        <form class="">
-            <div class="search">
-                <input type="text" class="search-input" placeholder="지역 및 식당, 음식">
-                <button class="search-button"><i class="fas fa-search"></i></button>
-            </div>
-        </form>
-
-        <div class="menu" id="host">
-           <div class="item"> <a href="/register">회원가입</a></div>
-            <div class="item"><a href="/login">로그인</a></div>
-            <div class="item"><a href="list">게시판</a></div>
-        </div>
-    </nav> -->
 
     <div class="headerdiv"></div>
 
     <div class="container detail-title">
         <div class="name" id="main_title">${restaurant.mainTitle}</div>
-        <div class="stars">&nbsp;${ review.grade}</div>
+        <div class="stars">&nbsp;<c:if test="${ avg ne 'n' }">${avg }</c:if> </div>
     </div>
     <div class="container detail-subtitle">${restaurant.itemcntnts}</div>
+
     <div class="container detail-status">
-        <i class="fas fa-eye"></i> &nbsp;43,210 &nbsp;<i class="fas fa-bookmark"></i> &nbsp;3,210 &nbsp;<i
-            class="fas fa-star"></i> &nbsp;210
+       <!-- 즐겨찾기버튼 -->
+<%--  ${ bookmark.restaurant.id}
+ ${restaurant.id }
+  ${bookmark.member.id }
+   ${principal.member.id} --%>
+ 
+ 	<sec:authorize access="hasAuthority('ROLE_Manager')">
+ 	</sec:authorize>
+ 	
+ 	<sec:authorize access="isAnonymous()">
+ 		<a href="/login"><h3>나만의 맛집 리스트를 만들어보세요 🍔</h3></a>
+ 	</sec:authorize>
+ 
+ <sec:authorize access="hasAuthority('ROLE_Member')">
+   <input type="hidden" id="member" value="${principal.member.username }"/>
+        <input type="hidden" id="memberId" value="${principal.member.id }"/>
+      		<c:choose>
+      			<c:when test="${ (bookmark.restaurant.id eq restaurant.id) and (bookmark.member.username eq principal.member.username )}">
+      				<input type="hidden" id="bookmarkId" value="${bookmark.id }" />
+      			<div class="like-container">
+	  				<div class="like-cnt unchecked" id="like-cnt"> 
+	  					<button type="button" id="btn-like-cancel"><h1 > ❤ </h1></button> <!-- 찜취소 -->
+	  				</div>
+				</div>
+      			</c:when>
+      			
+      			<c:otherwise>
+      				<div class="like-container">
+      			<div class="like-cnt unchecked" id="like-cnt"> 
+	  				<button type="button" id="btn-like"><h1 id="btn-like">  🤍 </h1></button> <!-- 찜하기 -->
+	  				</div>
+				</div>
+      			</c:otherwise>
+      		</c:choose>
+      </sec:authorize>
+				
+    <%--   		</c:forEach> --%>
+        <!-- <i class="fas fa-eye"></i> &nbsp;43,210 &nbsp; -->
+        <i class="fas fa-bookmark"></i> &nbsp;${count} &nbsp;
+      <!--   <i class="fas fa-star"></i> &nbsp;210 -->
     </div>
+ 
 
     <div class="container">
 
@@ -67,23 +133,7 @@
                 <li data-target="#demo" data-slide-to="0" class="active"></li>
                 <li data-target="#demo" data-slide-to="1"></li>
             </ul>
-
-            <!-- The slideshow -->
-         <%--    <div class="carousel-inner">
-             
-                <c:if test="${not empty restaurant.mainImgNormal or not empty attachList }">
-                   <div class="carousel-item active">
-                    <img src="${restaurant.mainImgNormal}">
-                    <c:forEach items="${ attachList}" var="attach">
-                    	  <img src="/resources/upload/${attach.uploadpath}/${attach.uuid}_${attach.filename}" />
-                    </c:forEach>
-                      </div>
-                	<div class="carousel-item">
-             
-                    <img src="${restaurant.mainImgNormal}">
-               
-                	</div>
-                  </c:if> --%>
+         
             
             </div> 
             
@@ -101,14 +151,16 @@
                     	  </c:otherwise>
                     </c:choose>
                   <!-- 이부분이 해결돼야 리뷰에도 사진올리고 어쩌고저쩌고 -->
-                    <c:if test="${not empty attachList }">
+                    <c:if test="${not empty attachList}">
                         <c:forEach items="${ attachList}" var="attach">
+                        <c:if test="${empty attach.reviewboardId }">
                     	  	<!-- The slideshow -->
 				            <div class="carousel-inner">
 				                <div class="carousel-item active">
 				                      <img src="/resources/upload/${attach.uploadpath}/${attach.uuid}_${attach.filename}" />
 				                </div>
 				            </div>
+				            </c:if>
                     	</c:forEach>
                     </c:if>
                     
@@ -142,53 +194,78 @@
         
         
    		<!--      지도를 표시할 div 입니다 -->
-        <div id="map" style="width:100%;height:350px;"></div>
+        <div id="map" style="width:80%;height:350px;"></div>
         
         <!-- 비회원 -->
         <sec:authorize access="isAnonymous()">
-        	<a href="/register">foodies 의 회원이 되시면 리뷰를 남길 수 있어요😎</a>
+        	<a href="/login">foodies 의 회원이 되시면 리뷰를 남길 수 있어요😎</a>
             </sec:authorize>
             
-         <!-- 회원 -->
+       <!-- 회원 -->
         <sec:authorize access="hasRole('ROLE_Member')">
         	<a href="/member/review/${restaurant.id }"><button type="button" class="btn btn-warning" id="btn-submit">리뷰쓰기</button></a>
         	</sec:authorize>
         
-         <!-- 관리자 -->
+             <!-- 관리자 -->
          <sec:authorize access="hasRole('ROLE_Manager')">
            <a href="/manager/restaurant/update/${restaurant.id}"><button type="submit" class="btn btn-warning" id="btn-submit">수정</button></a>
-           <a href="#"><button type="button" class="btn btn-warning" id="btn-delete">삭제</button></a>
+           <button type="button" class="btn btn-warning" id="btn-delete">삭제</button>
             </sec:authorize>
-   
     
    
 </div>
+<br/>
            <!-- 리뷰가 나타날 곳 -->
     <!-- 댓글 view단 -->
 	<div class="container">
 		<div class="card-header">
 			<b>foodies의 후기</b>
 		</div>
+		<c:forEach items="${restaurant.reviewBoards}" var="review">
+		
 		<ul id="reply-box" class="list-group">
 			<li id="reply-1" class="list-group-item d-flex justify-content-between">
-				<div>${restaurant.reviewBoard.content }</div>
-				<div class="d-flex">
-					<div class="font-italic">작성자 : ${restaurant.reviewBoard.member.username } &nbsp;</div>
-					<button class="badge">삭제</button>
-				</div>
+				<div>  
+				<input type="hidden" id="reviewId" value="${review.id }"/>
+				<!-- 이 부분만 해결하면 됨 -->
+				<div class="star-rating"> 
+				  <input type="radio" id="1" value="5" <c:if test="${review.grade eq 5.0}">checked="checked"</c:if> onclick="return(false)"/>
+				  <label for="5-stars" class="star">&#9733;</label>
+				  <input type="radio" id="2"  value="4" <c:if test="${review.grade eq 4.0}">checked="checked"</c:if> onclick="return(false)"/>
+				  <label for="4-stars" class="star">&#9733;</label>
+					<input type="radio" id="3 " value="3" <c:if test="${review.grade eq 3.0}">checked="checked"</c:if> onclick="return(false)"/>
+				  <label for="3-stars" class="star">&#9733;</label>
+				   <input type="radio" id="4 " value="2" <c:if test="${review.grade eq 2.0}">checked="checked"</c:if> onclick="return(false)"/>
+				  <label for="2-stars" class="star">&#9733;</label>
+				   <input type="radio" id="5" value="1" <c:if test="${review.grade eq 1.0}">checked="checked"</c:if> onclick="return(false)"/>
+				  <label for="1-star" class="star">&#9733;</label>
+				 </div> <br/>
+				
+			<br/>
+				${review.content }<br/>
+				  작성자 : ${review.member.username } <br/>	
+ 					작성일 : <fmt:formatDate value="${review.regDate}" pattern="yyyy-MM-dd hh:mm:ss" />
+ 					<br/>
+ 					<c:if test="${principal.member.username eq review.member.username }">
+ 					<button type="button" class="btn btn-warning sm btn-review-delete" id="btn-review-delete${review.id }" data-value="${review.id }">삭제</button>
+ 					</c:if>
+ 					</div>
 			</li>
 		</ul>
+		</c:forEach>
 	</div>
+ 
  
    
     
     
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=66159ace2b774061f4844aad5cb1be92&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9d918e400d0d27925a89d2d4d6ccd0db&libraries=services"></script>
 
 <script>
-// 삭제 요청
+// 관리자 식당 삭제 요청
 $("#btn-delete").on('click', function(){
 	//alert("dd");
+	
 	if (!confirm("정말로 삭제하시겠습니까?")){
 		return false;
 	}
@@ -206,6 +283,29 @@ $("#btn-delete").on('click', function(){
 		alert("삭제 실패");
 	})
 })
+// 사용자 리뷰 삭제 요청
+$(".btn-review-delete").on('click', function(){
+	//alert("dd");
+	var b = $(this).attr('data-value');
+	if (!confirm("정말로 삭제하시겠습니까?")){
+		return false;
+	}
+	$.ajax({
+		method: "DELETE",
+		url: "/member/review/del/"+b
+	})
+	.done(function(resp){
+		if(resp == "success"){
+			alert("삭제 되었습니다");
+			location.href="/detail/"+${restaurant.id};
+		}
+	})
+	.fail(function(e){
+		alert(e);
+		//alert("삭제 실패");
+	}) 
+})
+
 
 // 지도 api
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -214,11 +314,16 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         level: 3 // 지도의 확대 레벨
     };  
 
+	
+
 // 지도를 생성합니다    
 var map = new kakao.maps.Map(mapContainer, mapOption); 
 
+
 // 주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
+
+
 
 // 주소로 좌표를 검색합니다
 geocoder.addressSearch("${restaurant.addr1}", function(result, status) {
@@ -245,6 +350,69 @@ geocoder.addressSearch("${restaurant.addr1}", function(result, status) {
         map.setCenter(coords);
     } 
 });  
+// 찜
+$("#btn-like").on("click", function(){
+	//$("#btn-like").html("❤");
+	// 로그인 먼저 해야됨
+	if (${empty principal}){
+		alert("로그인한 사용자만 찜할 수 있습니다");
+		location.href="/login";
+		return;
+	} else {
+		var member = $("#member").val();
+		var resId = ${restaurant.id};
+		var isLike = true;
+		
+		var bookmark = {
+			"member": member,
+			"resId": resId,
+			"isLike" : "true"
+		}
+		if(!confirm("찜하겠습니까?")){
+			return false;
+		};
+		$.ajax({
+			method: "POST",
+			url: "/member/bookmark",
+			contentType: "application/json;charset=utf-8",
+			data : JSON.stringify(bookmark)
+		})
+		.done(function(resp){
+			if(confirm("찜한 목록으로 가시겠습니까?")){
+				var memberId = $("#memberId").val();
+				location.href="/member/mypage/bookmark/"+memberId;
+			} else {
+				location.href="/detail/"+resId;
+			}
+		})
+	}
+	
+	
+})
+// 찜 취소
+$("#btn-like-cancel").on("click", function(){
+	if(!confirm("찜하기를 취소하시겠습니까?")){
+		return false;
+	}  {
+		var bookmarkId = $("#bookmarkId").val();
+		$.ajax({
+			method: "DELETE",
+			url: "/member/bookmark/del/"+bookmarkId
+		})
+		.done(function(resp){
+			if (resp == "success"){
+				alert("취소 되었습니다");
+				location.href="/detail/"+${restaurant.id};
+			}
+		})
+		.fail(function(e){
+			alert("오류가 발생했습니다. 다시 시도해주세요");
+		})
+			
+	} // else
+	
+})
+
 </script>
 
 </body>

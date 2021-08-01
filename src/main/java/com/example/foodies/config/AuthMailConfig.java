@@ -21,8 +21,8 @@ public class AuthMailConfig {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setHost("smtp.gmail.com");
 		mailSender.setPort(587);
-		mailSender.setUsername("9pintest5@gmail.com");
-		mailSender.setPassword("bitc5600"); 
+		mailSender.setUsername("이메일주소");
+		mailSender.setPassword("비밀번호"); 
 		mailSender.setDefaultEncoding("utf-8");
 		mailSender.setJavaMailProperties(properties);
 

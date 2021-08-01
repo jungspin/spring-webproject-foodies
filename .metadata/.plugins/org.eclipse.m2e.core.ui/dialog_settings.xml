@@ -74,6 +74,7 @@
 	</section>
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="C:\Users\user\Desktop\완성본"/>
 			<item value="C:\Users\magem\Desktop\foodies"/>
 		</list>
 		<list key="projectNameTemplate">

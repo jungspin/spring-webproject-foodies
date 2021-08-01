@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.foodies.model.Restaurant;
 
-
 @Service
 public class ApiTestService {
 	

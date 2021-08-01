@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	// 로그인 성공한 경우
 	@Bean
 	public AuthenticationSuccessHandler loginSuccessHandler() {
-		return new LoginSuccessHandler();
+		return new LoginSuccessHandler(/*"/defaultUrl"*/);
 	}
 	
 	// 로그인 실패한 경우 

@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -44,9 +45,22 @@ public class Restaurant {
 	@Column(length = 500)
 	private String usageDayWeekAndTime; // 영업시간
 	
-	@OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OrderBy("id desc")
+	@OneToMany(mappedBy = "restaurant",cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("restaurant") // 무한참조 방지
 	private List<ReviewBoard> reviewBoards;
+
+	@Override
+	public String toString() {
+		return "Restaurant [id=" + id + ", addr1=" + addr1 + ", cntctTel=" + cntctTel + ", itemcntnts=" + itemcntnts
+				+ ", mainTitle=" + mainTitle + ", mainImgNormal=" + mainImgNormal + ", mainImgThumb=" + mainImgThumb
+				+ ", rprsntvMenu=" + rprsntvMenu + ", usageDayWeekAndTime=" + usageDayWeekAndTime + ", reviewBoards="
+				+ reviewBoards + "]";
+	}
+	
+	
+	
+	
 	
 	
 }

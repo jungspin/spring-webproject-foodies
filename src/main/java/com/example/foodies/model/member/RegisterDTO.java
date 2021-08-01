@@ -20,7 +20,6 @@ public class RegisterDTO {
 
 	@NotBlank
 	@Pattern(regexp = "^.*(?=^.{8,20}$)(?=.*\\d)(?=.*[a-z])(?=.*[!@#$%^&+=]).*$", message = "비밀번호는 영어소문자, 숫자, 특수문자를 포함한 8~20자리 입니다")
-
 	private String password;
 
 	@NotBlank

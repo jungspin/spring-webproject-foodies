@@ -34,7 +34,7 @@ public class FreeAttach {
 	
 	private String filename;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "freeboard_id")
 	private FreeBoard freeBoard;
 	

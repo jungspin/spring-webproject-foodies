@@ -14,11 +14,14 @@ import com.example.foodies.model.member.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 // 관심등록을 위한 테이블입니다
+
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 @Builder
 @Entity
 public class Bookmark {
@@ -28,14 +31,15 @@ public class Bookmark {
 	@Column(name = "bookmark_id")
 	private Long id;
 	
-	// 찜한 회원의 정보 -> 회원은 여러번 찜할 수 있다
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY) // 회원이 탈퇴하면 자동으로 삭제됨
+	
+	@ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY) // 자동으로 삭제됨
 	@JoinColumn(name = "member_id")
 	private Member member;
 	
 	// 회원이 찜한 식당의 정보
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY) // 식당 정보가 삭제되면 자동으로 삭제됨
+	@ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY) // 식당 정보가 삭제되면 자동으로 삭제됨
 	@JoinColumn(name = "res_id")
 	private Restaurant restaurant;
+	
 
 }
