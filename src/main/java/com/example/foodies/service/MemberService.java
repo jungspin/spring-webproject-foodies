@@ -17,6 +17,7 @@ import com.example.foodies.model.member.Member;
 import com.example.foodies.model.member.Role;
 import com.example.foodies.repository.BookmarkRepository;
 import com.example.foodies.repository.CommentRepository;
+import com.example.foodies.repository.FreeAttachRepository;
 import com.example.foodies.repository.FreeBoardRepository;
 import com.example.foodies.repository.MemberRepository;
 import com.example.foodies.repository.RestaurantRepository;
@@ -46,6 +47,9 @@ public class MemberService {
 	
 	@Autowired
 	private CommentRepository commentRepository;
+	
+	@Autowired
+	private FreeAttachRepository freeAttachRepository;
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
@@ -128,9 +132,11 @@ public class MemberService {
 		// 연관관계 삭제해줌
 		bookmarkRepository.deleteByMemberId(id);
 		freeBoardRepository.deleteByMemberId(id);
+		freeAttachRepository.deleteByFreeId(id);
 		reviewRepository.deleteByMemberId(id);
 		commentRepository.deleteByMemberId(id);
 		memberRepository.deleteById(id);
+	
 	}
 
 	// 좋아요 등록
